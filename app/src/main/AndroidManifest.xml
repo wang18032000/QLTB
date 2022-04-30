@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ptithcm.com.qltb">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.UserActivity" />
+        <activity android:name=".activity.AdminActivity" />
+        <activity android:name=".activity.QuanLiMuonActivity" />
+        <activity android:name=".activity.QuanLiThietBiActivity" />
+        <activity android:name=".activity.PhieuMuonActivity" />
+        <activity android:name=".activity.NhapActivity" />
+        <activity android:name=".activity.ThanhLyActivity" />
+        <activity android:name=".activity.QuanLiNVActivity"></activity>
+    </application>
+
+</manifest>
