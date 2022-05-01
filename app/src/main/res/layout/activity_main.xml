@@ -33,17 +33,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Tên đăng nhập"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:id="@+id/etdUsername"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:id="@+id/etdPassword"/>
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Đăng nhập"/>
+            android:text="Đăng nhập"
+            android:id="@+id/btnLogin"/>
 
     </LinearLayout>
 </RelativeLayout>

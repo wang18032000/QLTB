@@ -10,4 +10,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ptithcm.com.qltb.activity.UserActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/txtNV" />
+
+        <Button
+            android:text="Cho Mượn"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/txtNV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="68dp"
+            android:id="@+id/btnMuon" />
+
+        <Button
+            android:text="Quản Lí Thiết bị"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:id="@+id/btnQLTB"
+            android:layout_below="@+id/btnMuon"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Quản Lí Người Mượn"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:id="@+id/btnQLNM"
+            android:layout_below="@+id/btnQLTB"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Thống Kê"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:id="@+id/btnTK"
+            android:layout_below="@+id/btnQLNM"
+            android:layout_alignEnd="@+id/btnMuon" />
+
+    </LinearLayout>
+
 </RelativeLayout>
