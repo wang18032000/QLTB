@@ -1,16 +1,21 @@
 package ptithcm.com.qltb.activity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.media.session.IMediaControllerCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ptithcm.com.qltb.R;
 import ptithcm.com.qltb.model.CT_PhieuMuon;
@@ -23,11 +28,13 @@ public class PhieuMuonActivity extends AppCompatActivity {
     TextView txtMaMN, txtTenNM, txtPhong, txtThoiGianMuon;
     Button btnConfirm;
     ImageView imgThemTB_CTPM;
-    ListView lvThietBi;
-    ArrayAdapter<CT_PhieuMuon> thietBiAdapter;
+    ListView lvCTPM;
+    ArrayAdapter<CT_PhieuMuon> cTPMAdapter;
     ArrayAdapter<NguoiMuon> nguoiMuonAdapter;
+    ArrayAdapter<ThietBi> thietBiAdapter;
     NguoiMuon nguoiMuon;
     PhieuMuon phieuMuon;
+    CT_PhieuMuon ct_phieuMuon;
     ThietBi thietbi;
     Dialog dialogThemTB,dialogChiTietTB;
 
@@ -41,6 +48,25 @@ public class PhieuMuonActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
+        lvCTPM.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ct_phieuMuon = cTPMAdapter.getItem(i);
+                showDialogThietBi();
+            }
+        });
+        imgThemTB_CTPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDiaLogAddThietBi();
+            }
+        });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                update();
+            }
+        });
     }
 
     private void addControls() {
@@ -52,28 +78,28 @@ public class PhieuMuonActivity extends AppCompatActivity {
         txtPhong = (TextView) findViewById(R.id.txtPhong_CTPM);
         txtThoiGianMuon = (TextView) findViewById(R.id.txtThoigianMuon_CTPM);
         imgThemTB_CTPM = (ImageView) findViewById(R.id.imgThemTB_CTPM);
-        lvThietBi = (ListView) findViewById(R.id.lvTB_CTPM);
-        thietBiAdapter = new ArrayAdapter<CT_PhieuMuon>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
-        lvThietBi.setAdapter(thietBiAdapter);
+        lvCTPM = (ListView) findViewById(R.id.lvTB_CTPM);
+        cTPMAdapter = new ArrayAdapter<CT_PhieuMuon>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
+        lvCTPM.setAdapter(cTPMAdapter);
         btnConfirm = (Button) findViewById(R.id.btnHoanTat);
 
         txtMaMN.setText(phieuMuon.getMaMN());
         txtTenNM.setText(findTen(phieuMuon.getMaMN()));
         txtPhong.setText(phieuMuon.getPhong());
         txtThoiGianMuon.setText(phieuMuon.getThoiGianMuon());
-        getThietBiFromDB(phieuMuon.getMaMN());
+        getThietBiFromDB(phieuMuon.getMaPM());
     }
 
     private void getThietBiFromDB(String ma) {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
         Cursor cursor = LoginActivity.database.query("CT_PHIEUMUON",null,"MaPM=?",new String[]{ma},null,null,null);
-        thietBiAdapter.clear();
+        cTPMAdapter.clear();
         while (cursor.moveToNext()){
             String maPM = cursor.getString(0);
             String maTB = cursor.getString(1);
             String thoigiantra = cursor.getString(2);
             CT_PhieuMuon ct = new CT_PhieuMuon(maPM, maTB, thoigiantra);
-            thietBiAdapter.add(ct);
+            cTPMAdapter.add(ct);
         }
         cursor.close();
     }
@@ -103,5 +129,81 @@ public class PhieuMuonActivity extends AppCompatActivity {
             nguoiMuonAdapter.add(nguoiMuon);
         }
         cursor.close();
+    }
+
+    private void getTBFromDB(ArrayAdapter<ThietBi> adapter) {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM THIETBI", null);
+        adapter.clear();
+        while (cursor.moveToNext()) {
+            String matb = cursor.getString(0);
+            String tentb = cursor.getString(1);
+            String ghichu = cursor.getString(2);
+            String maloai = cursor.getString(3);
+            String tinhtrang = cursor.getString(5);
+            String trangthai = cursor.getString(4);
+            ThietBi tb = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
+            adapter.add(tb);
+        }
+        cursor.close();
+    }
+
+    private void showDialogThietBi(){
+        dialogChiTietTB = new Dialog(PhieuMuonActivity.this);
+        dialogChiTietTB.setContentView(R.layout.dialog_chi_tiet_tb_pm);
+        dialogChiTietTB.show();
+    }
+
+    private void showDiaLogAddThietBi(){
+        dialogThemTB = new Dialog(PhieuMuonActivity.this);
+        dialogThemTB.setContentView(R.layout.dialog_them_tb_pm);
+
+        final TextView txtTenTB = dialogThemTB.findViewById(R.id.txtTenTB_add);
+        final TextView txtPhong = dialogThemTB.findViewById(R.id.txtTT_add);
+        final Button btnThem = dialogThemTB.findViewById(R.id.btnThem);
+
+        thietbi = null;
+        MultiAutoCompleteTextView mactv;
+        mactv = (MultiAutoCompleteTextView) dialogThemTB.findViewById(R.id.multiAutoCompleteTextView1);
+        if (thietBiAdapter == null){
+            thietBiAdapter = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
+            getTBFromDB(thietBiAdapter);
+        }
+        mactv.setAdapter(thietBiAdapter);
+        mactv.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        mactv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                thietbi = thietBiAdapter.getItem(i);
+                txtTenTB.setText(thietbi.getTenTB());
+                txtPhong.setText(thietbi.getTinhTrang() );
+            }
+        });
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                add();
+            }
+        });
+        dialogThemTB.show();
+    }
+
+    private void add(){
+        ContentValues values = new ContentValues();
+        values.put("MaPM",phieuMuon.getMaPM().toString());
+        values.put("MaTB",thietbi.getMaTB().toString());
+        values.put("ThoiGianTra","");
+        int kq = (int) LoginActivity.database.insert("CT_PHIEUMUON",null,values);
+        if (kq >0){
+            Toast.makeText(PhieuMuonActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
+            dialogThemTB.dismiss();
+            getThietBiFromDB(phieuMuon.getMaPM());
+        } else {
+            Toast.makeText(PhieuMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void update(){
+
     }
 }

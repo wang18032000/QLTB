@@ -46,10 +46,7 @@ public class CT_PhieuMuon implements Serializable {
 
     @Override
     public String toString() {
-        return "CT_PhieuMuon{" +
-                "thoiGianTra='" + thoiGianTra + '\'' +
-                ", maTB='" + maTB + '\'' +
-                '}';
+        return maTB;
     }
 }
 
