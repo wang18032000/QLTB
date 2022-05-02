@@ -73,5 +73,10 @@ public class PhieuMuon implements Serializable {
     public void setThoiGianMuon(String thoiGianMuon) {
         this.thoiGianMuon = thoiGianMuon;
     }
+
+    @Override
+    public String toString() {
+        return phong;
+    }
 }
 

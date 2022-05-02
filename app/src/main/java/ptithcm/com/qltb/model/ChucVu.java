@@ -26,6 +26,14 @@ public class ChucVu implements Serializable {
         this.maCV = maCV;
     }
 
+    public String getTenCV() {
+        return tenCV;
+    }
+
+    public void setTenCV(String tenCV) {
+        this.tenCV = tenCV;
+    }
+
     @Override
     public String toString() {
         return tenCV ;

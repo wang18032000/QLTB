@@ -103,4 +103,9 @@ public class NguoiMuon implements Serializable {
     public void setLoai(String loai) {
         this.loai = loai;
     }
+
+    @Override
+    public String toString() {
+        return  ho+" "+ten;
+    }
 }

@@ -43,5 +43,13 @@ public class CT_PhieuMuon implements Serializable {
     public void setThoiGianTra(String thoiGianTra) {
         this.thoiGianTra = thoiGianTra;
     }
+
+    @Override
+    public String toString() {
+        return "CT_PhieuMuon{" +
+                "thoiGianTra='" + thoiGianTra + '\'' +
+                ", maTB='" + maTB + '\'' +
+                '}';
+    }
 }
 

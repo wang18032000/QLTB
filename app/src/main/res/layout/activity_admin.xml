@@ -36,7 +36,7 @@
             android:text="Quản Lí Thiết bị"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:id="@+id/btnQLTBad"
+            android:id="@+id/btnQLTB_ad"
             android:layout_below="@+id/btnQLNV"
             android:layout_centerHorizontal="true" />
 
@@ -44,8 +44,8 @@
             android:text="Quản Lí Người Mượn"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:id="@+id/btnQLNMad"
-            android:layout_below="@+id/btnQLTBad"
+            android:id="@+id/btnQLNM_ad"
+            android:layout_below="@+id/btnQLTB_ad"
             android:layout_centerHorizontal="true" />
 
     </LinearLayout>

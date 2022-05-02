@@ -77,13 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         taiKhoanAdapter.clear();
         while (cursor.moveToNext()) {
             String user = cursor.getString(0);
-            System.out.println(user);
             String pass = cursor.getString(1);
-            System.out.println(pass);
             String email = cursor.getString(2);
-            System.out.println(email);
             String pq = cursor.getString(3);
-            System.out.println(pq);
             taiKhoan = new TaiKhoan(user, pass, email, pq);
             taiKhoanAdapter.add(taiKhoan);
         }
