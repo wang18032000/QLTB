@@ -38,10 +38,10 @@
             android:text="Ngày Nhập"
             android:id="@+id/textView5"
             android:textSize="20dp"/>
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/etdNgayNhap"
+            android:id="@+id/txtNgayNhap"
             android:textSize="20dp"/>
     </LinearLayout>
 

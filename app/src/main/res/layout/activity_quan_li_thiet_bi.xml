@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thanh Lý"
-            android:id="@+id/ThanhLy"/>
+            android:id="@+id/btnThanhLy"/>
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"

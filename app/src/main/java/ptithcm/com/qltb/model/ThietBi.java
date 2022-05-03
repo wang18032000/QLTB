@@ -72,4 +72,9 @@ public class ThietBi implements Serializable {
     public void setTinhTrang(String tinhTrang) {
         this.tinhTrang = tinhTrang;
     }
+
+    @Override
+    public String toString() {
+        return tenTB;
+    }
 }

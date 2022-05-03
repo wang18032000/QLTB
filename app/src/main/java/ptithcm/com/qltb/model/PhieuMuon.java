@@ -76,7 +76,7 @@ public class PhieuMuon implements Serializable {
 
     @Override
     public String toString() {
-        return phong;
+        return phong+" - "+thoiGianMuon;
     }
 }
 

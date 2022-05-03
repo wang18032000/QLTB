@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
-
-
-
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
-        android:text="Chi tiết thiết bị"
+        android:text="Nhập thiết bị"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -18,7 +13,6 @@
         android:paddingBottom="7dp"
         android:paddingTop="7dp"
         android:textColor="@android:color/black" />
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -36,38 +30,39 @@
             android:id="@+id/textView4"
             android:textSize="14sp" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtTenTBdetail"
+            android:id="@+id/edtTenTB_Nhap"
             android:layout_weight="1"
             android:textSize="14sp" />
 
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="248dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="40dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp">-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
-        <!--<TextView-->
-            <!--android:text="Phòng"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/textView3"-->
-            <!--android:textSize="14sp" />-->
+        <TextView
+            android:text="Giá"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:textSize="14sp" />
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/txtphong_detail"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="14sp" />-->
-    <!--</LinearLayout>-->
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtGia"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -81,8 +76,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnTra"
+            android:id="@+id/btnNhapTB"
             android:layout_weight="1"
-            android:text="Trả" />
+            android:text="Nhập Vào" />
     </LinearLayout>
 </LinearLayout>
