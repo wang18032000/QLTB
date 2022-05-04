@@ -82,7 +82,6 @@ public class PhieuMuonActivity extends AppCompatActivity {
         lvCTPM = (ListView) findViewById(R.id.lvTB_CTPM);
         cTPMAdapter = new ArrayAdapter<CT_PhieuMuon>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         lvCTPM.setAdapter(cTPMAdapter);
-    //        btnConfirm = (Button) findViewById(R.id.btnHoanTat);
 
         txtMaMN.setText(phieuMuon.getMaMN());
         txtTenNM.setText(findTen(phieuMuon.getMaMN()));
