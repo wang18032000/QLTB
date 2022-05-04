@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngày Nhập"
+            android:text="Ngày Nhập: "
             android:id="@+id/textView5"
             android:textSize="20dp"/>
         <TextView

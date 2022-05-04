@@ -37,8 +37,6 @@ public class LoaiThietBi implements Serializable {
 
     @Override
     public String toString() {
-        return "LoaiThietBi{" +
-                "tenLoai='" + tenLoai + '\'' +
-                '}';
+        return tenLoai;
     }
 }

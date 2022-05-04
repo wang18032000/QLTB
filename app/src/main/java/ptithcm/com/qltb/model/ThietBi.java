@@ -13,7 +13,7 @@ public class ThietBi implements Serializable {
     private String trangThai;
     private String tinhTrang;
 
-    private ThietBi() {
+    public ThietBi() {
     }
 
     public ThietBi(String maTB, String tenTB, String ghiChu, String maLoai, String trangThai, String tinhTrang) {

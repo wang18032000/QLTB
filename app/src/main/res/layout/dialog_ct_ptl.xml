@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:text="Nhập thiết bị"
+        android:text="Thiết Bị Thanh Lý"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -30,13 +30,12 @@
             android:id="@+id/textView4"
             android:textSize="14sp" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edtTenTB_Nhap"
+            android:id="@+id/txtTenTB_TL"
             android:layout_weight="1"
             android:textSize="14sp" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -58,57 +57,10 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edtGia"
+            android:id="@+id/edtGia_TL"
             android:layout_weight="1"
             android:textSize="14sp" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-        <TextView
-            android:text="Loại Thiết Bị"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView11"
-            android:textSize="14sp" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spLoaiTBadd"
-            android:layout_weight="1"
-            android:textSize="14sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <TextView
-            android:text="Mã Loại"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView14"
-            android:textSize="14sp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtMaLoaiTBadd"
-            android:layout_weight="1"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -123,8 +75,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnNhapTB"
+            android:id="@+id/btnTL"
             android:layout_weight="1"
-            android:text="Nhập Vào" />
+            android:text="Thanh Lý" />
     </LinearLayout>
 </LinearLayout>
