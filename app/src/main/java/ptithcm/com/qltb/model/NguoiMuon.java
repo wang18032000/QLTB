@@ -106,6 +106,6 @@ public class NguoiMuon implements Serializable {
 
     @Override
     public String toString() {
-        return  ho+" "+ten;
+        return  ho+" "+ten+" - "+loai;
     }
 }

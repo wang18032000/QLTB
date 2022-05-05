@@ -34,7 +34,7 @@ public class AdminActivity extends AppCompatActivity {
         btnQLNV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminActivity.this, QuanLiMuonActivity.class);
+                Intent intent = new Intent(AdminActivity.this, QuanLiNVActivity.class);
                 intent.putExtra("nhanvien",nhanVien);
                 startActivity(intent);
             }
@@ -50,8 +50,7 @@ public class AdminActivity extends AppCompatActivity {
         btnQLMN_AD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminActivity.this, QuanLiMuonActivity.class);
-                intent.putExtra("nhanvien",nhanVien);
+                Intent intent = new Intent(AdminActivity.this, QuanLiNguoiMuonActivity.class);
                 startActivity(intent);
             }
         });

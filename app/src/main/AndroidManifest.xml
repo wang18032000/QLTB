@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:label="Đăng Nhập">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,22 +17,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.UserActivity"
-            android:label="User"/>
-        <activity android:name=".activity.AdminActivity"
-            android:label="Adminstrator"/>
-        <activity android:name=".activity.PhieuMuonActivity"
-            android:label="Chi Tiết Phiếu Mượn"/>
-        <activity android:name=".activity.QuanLiThietBiActivity"
-            android:label="Quản Lí Kho Thiết Bị"/>
-        <activity android:name=".activity.QuanLiMuonActivity"
-            android:label="Quản Lí Mượn Thiết Bị"/>
-        <activity android:name=".activity.NhapActivity"
-            android:label="Nhập Thiết Bị Mới"/>
-        <activity android:name=".activity.ThanhLyActivity"
-            android:label="Thanh Lý Thiết Bị"/>
-        <activity android:name=".activity.QuanLiNVActivity"
-            android:label="Quản Lí Nhân Viên"/>
+        <activity
+            android:name=".activity.UserActivity"
+            android:label="User" />
+        <activity
+            android:name=".activity.AdminActivity"
+            android:label="Adminstrator" />
+        <activity
+            android:name=".activity.PhieuMuonActivity"
+            android:label="Chi Tiết Phiếu Mượn" />
+        <activity
+            android:name=".activity.QuanLiThietBiActivity"
+            android:label="Quản Lí Kho Thiết Bị" />
+        <activity
+            android:name=".activity.QuanLiMuonActivity"
+            android:label="Quản Lí Mượn Thiết Bị" />
+        <activity
+            android:name=".activity.NhapActivity"
+            android:label="Nhập Thiết Bị Mới" />
+        <activity
+            android:name=".activity.ThanhLyActivity"
+            android:label="Thanh Lý Thiết Bị" />
+        <activity
+            android:name=".activity.QuanLiNVActivity"
+            android:label="Quản Lí Nhân Viên" />
+        <activity android:name=".activity.QuanLiNguoiMuonActivity"></activity>
     </application>
 
 </manifest>

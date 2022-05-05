@@ -52,8 +52,7 @@ public class UserActivity extends AppCompatActivity {
         btnQLNM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserActivity.this, QuanLiMuonActivity.class);
-                intent.putExtra("nhanvien",nhanVien);
+                Intent intent = new Intent(UserActivity.this, QuanLiNguoiMuonActivity.class);
                 startActivity(intent);
             }
         });

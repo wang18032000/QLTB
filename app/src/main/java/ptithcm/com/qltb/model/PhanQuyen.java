@@ -34,4 +34,9 @@ public class PhanQuyen implements Serializable {
     public void setTenPQ(String tenPQ) {
         this.tenPQ = tenPQ;
     }
+
+    @Override
+    public String toString() {
+        return tenPQ;
+    }
 }

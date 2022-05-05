@@ -18,7 +18,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:id="@+id/txtNV_PM" />
+        android:textSize="30dp"
+        android:textColor="#FF0000"
+        android:id="@+id/txtNV_PM"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif" />
 
 
     <LinearLayout

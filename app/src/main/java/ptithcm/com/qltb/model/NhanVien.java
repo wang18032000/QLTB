@@ -96,8 +96,6 @@ public class NhanVien implements Serializable {
 
     @Override
     public String toString() {
-        return "NhanVien{" +
-                "ten='" + ten + '\'' +
-                '}';
+        return ho+" "+ten;
     }
 }
