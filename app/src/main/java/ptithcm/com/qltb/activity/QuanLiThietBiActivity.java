@@ -148,10 +148,25 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                update();
+                if (kiemtradulieu()){
+                    update();
+                }
             }
         });
         dialogCTTB.show();
+    }
+
+    private boolean kiemtradulieu() {
+        String ten = edtTen.getText().toString();
+        String trT =edtTrangThai.getText().toString();
+        String tTr =edtTinhTrang.getText().toString();
+
+        if(!ten.equals("") && !trT.equals("") && !tTr.equals("")){
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void update() {

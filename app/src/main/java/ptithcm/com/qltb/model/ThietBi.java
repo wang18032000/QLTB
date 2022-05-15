@@ -75,6 +75,6 @@ public class ThietBi implements Serializable {
 
     @Override
     public String toString() {
-        return tenTB;
+        return tenTB+" - "+trangThai;
     }
 }

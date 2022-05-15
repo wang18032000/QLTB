@@ -86,19 +86,34 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTen.getText().toString().equals("")){
-                    Toast.makeText(QuanLiNguoiMuonActivity.this, "Chưa nhập tên", Toast.LENGTH_LONG).show();
-                }else {
-                    if (edtGioiTinh.getText().toString().equals("Nam")||edtGioiTinh.getText().toString().equals("Nu")||edtGioiTinh.getText().toString().equals("")){
-                        update();
-                    } else
-                        Toast.makeText(QuanLiNguoiMuonActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
+                if (kiemtradulieu()){
+                    update();
                 }
             }
         });
         dialogNM.show();
-
     }
+
+    private boolean kiemtradulieu() {
+        String ho = edtHo.getText().toString();
+        String ten = edtTen.getText().toString();
+        String gt = edtGioiTinh.getText().toString();
+        String ns = edtNgaySinh.getText().toString();;
+        String dc = edtDiaChi.getText().toString();
+        String cmnd = edtCMND.getText().toString();
+        String loai = edtLoai.getText().toString();
+        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !ns.equals("") && !dc.equals("") && !cmnd.equals("") && !loai.equals("")){
+            if (!gt.equals("Nam") && !gt.equals("Nu")){
+                Toast.makeText(QuanLiNguoiMuonActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
 
     private void update() {
         ContentValues values = new ContentValues();
@@ -137,13 +152,8 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTen.getText().toString().equals("")){
-                    Toast.makeText(QuanLiNguoiMuonActivity.this, "Chưa nhập tên", Toast.LENGTH_LONG).show();
-                }else {
-                    if (edtLoai.getText().toString().equals("")){
-                        Toast.makeText(QuanLiNguoiMuonActivity.this, "Chưa nhập loại người mượn", Toast.LENGTH_LONG).show();
-                    }else
-                        add();
+                if (kiemtradulieu()){
+                    add();
                 }
             }
         });

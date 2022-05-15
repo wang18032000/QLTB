@@ -27,8 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText Username,Password;
     Button btnLogin;
     String queryParamenter;
-    TaiKhoan taiKhoan;
+    TaiKhoan taiKhoan = null;
     ArrayAdapter<TaiKhoan> taiKhoanAdapter;
+    String user, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,26 +43,46 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = Username.getText().toString();
-                String pass = Password.getText().toString();
-                taiKhoanAdapter = new ArrayAdapter<TaiKhoan>(LoginActivity.this, android.R.layout.simple_list_item_1);
-                getTaiKhoan();
-                for (int i=0;i<taiKhoanAdapter.getCount();i++){
-                    if (taiKhoanAdapter.getItem(i).getUsername().equals(user)&taiKhoanAdapter.getItem(i).getPassword().equals(pass)&taiKhoanAdapter.getItem(i).getMaPQ().equals("AD")){
-                        taiKhoan=taiKhoanAdapter.getItem(i);
-                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-                        intent.putExtra("taikhoan",taiKhoan);
-                        startActivity(intent);
-                    }
-                    if (taiKhoanAdapter.getItem(i).getUsername().equals(user)&taiKhoanAdapter.getItem(i).getPassword().equals(pass)&taiKhoanAdapter.getItem(i).getMaPQ().equals("US01")){
-                        taiKhoan=taiKhoanAdapter.getItem(i);
-                        Intent intent = new Intent(LoginActivity.this, UserActivity.class);
-                        intent.putExtra("taikhoan",taiKhoan);
-                        startActivity(intent);
-                    }
+                if (kiemtradulieu()==true){
+                    Login();
                 }
             }
         });
+    }
+
+    private void Login() {
+        taiKhoanAdapter = new ArrayAdapter<TaiKhoan>(LoginActivity.this, android.R.layout.simple_list_item_1);
+        getTaiKhoan(user,pass);
+        if (taiKhoanAdapter.getCount()==0){
+            Toast.makeText(this, "Thông tin đăng nhập không chính xác", Toast.LENGTH_SHORT).show();
+        } else {
+            taiKhoan = taiKhoanAdapter.getItem(0);
+            kiemtraphanquyen();
+        }
+    }
+
+    private void kiemtraphanquyen() {
+        if (taiKhoanAdapter.getItem(0).getMaPQ().equals("AD")){
+            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+            intent.putExtra("taikhoan", taiKhoan);
+            startActivity(intent);
+        }
+        if (taiKhoanAdapter.getItem(0).getMaPQ().equals("US01")){
+            Intent intent = new Intent(LoginActivity.this, UserActivity.class);
+            intent.putExtra("taikhoan", taiKhoan);
+            startActivity(intent);
+        }
+    }
+
+    private boolean kiemtradulieu() {
+        user = Username.getText().toString();
+        pass = Password.getText().toString();
+        if(!user.equals("") && !pass.equals("")){
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void addControls() {
@@ -71,9 +92,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void getTaiKhoan(){
+    private void getTaiKhoan(String u, String p){
         database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
-        Cursor cursor = database.rawQuery("SELECT * FROM TAIKHOAN",null);
+        Cursor cursor = database.query("TAIKHOAN",null,"UserName=? AND Password=?",new String[]{u,p},null,null,null);
         taiKhoanAdapter.clear();
         while (cursor.moveToNext()) {
             String user = cursor.getString(0);

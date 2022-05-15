@@ -46,7 +46,7 @@ public class CT_PhieuMuon implements Serializable {
 
     @Override
     public String toString() {
-        return maTB;
+        return maTB +" - "+thoiGianTra;
     }
 }
 

@@ -2,7 +2,6 @@ package ptithcm.com.qltb.activity;
 
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +24,6 @@ import ptithcm.com.qltb.model.ThietBi;
 public class PhieuMuonActivity extends AppCompatActivity {
 
     TextView txtMaMN, txtTenNM, txtPhong, txtThoiGianMuon;
-    Button btnConfirm;
     ImageView imgThemTB_CTPM;
     ListView lvCTPM;
     ArrayAdapter<CT_PhieuMuon> cTPMAdapter;
@@ -61,13 +58,6 @@ public class PhieuMuonActivity extends AppCompatActivity {
                 showDiaLogAddThietBi();
             }
         });
-//        btnConfirm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(PhieuMuonActivity.this, QuanLiMuonActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void addControls() {
@@ -79,6 +69,7 @@ public class PhieuMuonActivity extends AppCompatActivity {
         txtPhong = (TextView) findViewById(R.id.txtPhong_CTPM);
         txtThoiGianMuon = (TextView) findViewById(R.id.txtThoigianMuon_CTPM);
         imgThemTB_CTPM = (ImageView) findViewById(R.id.imgThemTB_CTPM);
+
         lvCTPM = (ListView) findViewById(R.id.lvTB_CTPM);
         cTPMAdapter = new ArrayAdapter<CT_PhieuMuon>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         lvCTPM.setAdapter(cTPMAdapter);
@@ -87,10 +78,11 @@ public class PhieuMuonActivity extends AppCompatActivity {
         txtTenNM.setText(findTen(phieuMuon.getMaMN()));
         txtPhong.setText(phieuMuon.getPhong());
         txtThoiGianMuon.setText(phieuMuon.getThoiGianMuon());
-        getThietBiFromDB(phieuMuon.getMaPM());
+
+        getCTFromDB(phieuMuon.getMaPM());
     }
 
-    private void getThietBiFromDB(String ma) {
+    private void getCTFromDB(String ma) {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
         Cursor cursor = LoginActivity.database.query("CT_PHIEUMUON",null,"MaPM=?",new String[]{ma},null,null,null);
         cTPMAdapter.clear();
@@ -170,18 +162,20 @@ public class PhieuMuonActivity extends AppCompatActivity {
         dialogChiTietTB.setContentView(R.layout.dialog_chi_tiet_tb_pm);
 
         final TextView txtTen = dialogChiTietTB.findViewById(R.id.txtTenTBdetail);
+        final TextView txtTT = dialogChiTietTB.findViewById(R.id.txtTT_detail);
         final Button btnTra = dialogChiTietTB.findViewById(R.id.btnTra);
         thietBiAdapter = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         findTB(ct_phieuMuon.getMaTB());
         thietbi = thietBiAdapter.getItem(0);
-        txtTen.setText(thietbi.getTrangThai());
+        txtTen.setText(thietbi.getTenTB());
+        txtTT.setText(thietbi.getTrangThai());
 
         btnTra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateTB(thietbi,"S");
+                updateTB(thietbi,"San co");
                 update(thietbi);
-                getThietBiFromDB(phieuMuon.getMaPM());
+                getCTFromDB(phieuMuon.getMaPM());
                 dialogChiTietTB.dismiss();
             }
         });
@@ -195,13 +189,13 @@ public class PhieuMuonActivity extends AppCompatActivity {
         final ListView lvThemTB = dialogThemTB.findViewById(R.id.lvThemTB_CTPM);
         thietBiAdapter = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         lvThemTB.setAdapter(thietBiAdapter);
-        getTBFromDB("S");
+        getTBFromDB("San co");
 
         lvThemTB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 thietbi = thietBiAdapter.getItem(i);
-                updateTB(thietbi,"C");
+                updateTB(thietbi,"Dang muon");
                 add();
             }
         });
@@ -220,7 +214,7 @@ public class PhieuMuonActivity extends AppCompatActivity {
 
         int kq = LoginActivity.database.update("THIETBI", values, "MaTB = ?", new String[]{thietbi.getMaTB()});
         if (kq != 0){
-            getThietBiFromDB(phieuMuon.getMaPM());
+            getCTFromDB(phieuMuon.getMaPM());
         }else {
             Toast.makeText(PhieuMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
         }
@@ -235,10 +229,10 @@ public class PhieuMuonActivity extends AppCompatActivity {
         if (kq >0){
             //Toast.makeText(PhieuMuonActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
             dialogThemTB.dismiss();
-            getThietBiFromDB(phieuMuon.getMaPM());
+            getCTFromDB(phieuMuon.getMaPM());
         } else {
             dialogThemTB.dismiss();
-            getThietBiFromDB(phieuMuon.getMaPM());
+            getCTFromDB(phieuMuon.getMaPM());
             Toast.makeText(PhieuMuonActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
         }
     }

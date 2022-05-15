@@ -63,11 +63,31 @@ public class ThanhLyActivity extends AppCompatActivity {
         btnTL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createCTPTL();
-                updateTB();
+                if (kiemtradulieu()){
+                    createCTPTL();
+                    updateTB();
+                }
             }
         });
         dialogTL.show();
+    }
+
+    private boolean kiemtradulieu() {
+        String gia = edtGiaTL.getText().toString();
+
+        if(!gia.equals("")){
+            final int s = gia.length();
+            for (int i =0; i<s;i++){
+                if (!Character.isDigit(gia.charAt(i))){
+                    Toast.makeText(this, "Vui lòng nhập đúng kiểu dữ liệu", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void updateTB() {

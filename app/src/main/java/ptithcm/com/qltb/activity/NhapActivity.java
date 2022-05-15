@@ -37,7 +37,7 @@ public class NhapActivity extends AppCompatActivity {
     EditText edtTen,edtGia;
     Button btnNhapTB;
     ListView lvTBNhap;
-    int Tong;
+    int Tong = 0;
     ArrayAdapter<CT_PhieuNhap> ctPNAdapter;
     ArrayAdapter<LoaiThietBi> loaiArrayAdapter;
     Dialog dialogNhap;
@@ -90,12 +90,33 @@ public class NhapActivity extends AppCompatActivity {
         btnNhapTB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createThietBi();
-                createCTNhap();
+                if (kiemtradulieu()){
+                    createThietBi();
+                    createCTNhap();
+                }
             }
         });
 
         dialogNhap.show();
+    }
+
+    private boolean kiemtradulieu() {
+        String ten = edtTen.getText().toString();
+        String gia = edtGia.getText().toString();
+
+        if(!ten.equals("") && !gia.equals("")){
+            final int s = gia.length();
+            for (int i =0; i<s;i++){
+                if (!Character.isDigit(gia.charAt(i))){
+                    Toast.makeText(this, "Vui lòng nhập đúng kiểu dữ liệu", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void getLoaiTBFromDB() {
@@ -121,6 +142,7 @@ public class NhapActivity extends AppCompatActivity {
             Toast.makeText(NhapActivity.this, "Đã nhập", Toast.LENGTH_LONG).show();
             dialogNhap.dismiss();
             getCTPN(phieuNhap.getMaPN());
+            Tong += Integer.parseInt(edtGia.getText().toString());
             txtTongNhap.setText(String.valueOf(Tong)+ " VND");
         }else {
             Toast.makeText(NhapActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
@@ -133,7 +155,7 @@ public class NhapActivity extends AppCompatActivity {
         values.put("TenTB",edtTen.getText().toString());
         values.put("GhiChu","");
         values.put("MaLoai",txtM.getText().toString());
-        values.put("TrangThai","S");
+        values.put("TrangThai","San co");
         values.put("TinhTrang","Mới");
         int kq = (int) LoginActivity.database.insert("THIETBI",null,values);
         if (kq >0){
@@ -181,7 +203,7 @@ public class NhapActivity extends AppCompatActivity {
             String maPN = cursor.getString(0);
             String maTB = cursor.getString(1);
             String dongia = cursor.getString(2);
-            Tong += Integer.parseInt(dongia);
+
             CT_PhieuNhap ct = new CT_PhieuNhap(maPN, maTB, dongia);
             ctPNAdapter.add(ct);
         }

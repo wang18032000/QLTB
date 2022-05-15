@@ -102,18 +102,31 @@ public class QuanLiNVActivity extends AppCompatActivity {
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTen.getText().toString().equals("")){
-                    Toast.makeText(QuanLiNVActivity.this, "Chưa nhập tên", Toast.LENGTH_LONG).show();
-                }else {
-                    if (edtGioiTinh.getText().toString().equals("Nam")||edtGioiTinh.getText().toString().equals("Nu")||edtGioiTinh.getText().toString().equals("")){
-                        update();
-                    } else
-                        Toast.makeText(QuanLiNVActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
+                if (kiemtradulieuCapNhat()){
+                    update();
                 }
             }
         });
         dialogNV.show();
 
+    }
+
+    private boolean kiemtradulieuCapNhat() {
+        String ho = edtHo.getText().toString();
+        String ten = edtTen.getText().toString();
+        String gt = edtGioiTinh.getText().toString();
+        String cmnd = edtCMND.getText().toString();
+        String sdt = edtSDT.getText().toString();
+        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !sdt.equals("") && !cmnd.equals("")){
+            if (!gt.equals("Nam") && !gt.equals("Nu")){
+                Toast.makeText(QuanLiNVActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void getChucVuFromDB() {
@@ -222,15 +235,34 @@ public class QuanLiNVActivity extends AppCompatActivity {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTen.getText().toString().equals("")){
-                    Toast.makeText(QuanLiNVActivity.this, "Chưa nhập tên", Toast.LENGTH_LONG).show();
-                }else {
+                if (kiemtradulieuThem()) {
                     addUser();
                     add();
                 }
             }
         });
         dialogThemNV.show();
+    }
+
+    private boolean kiemtradulieuThem() {
+        String ho = edtHo.getText().toString();
+        String ten = edtTen.getText().toString();
+        String gt = edtGioiTinh.getText().toString();
+        String cmnd = edtCMND.getText().toString();
+        String sdt = edtSDT.getText().toString();
+        String u = edtUser.getText().toString();
+        String p = edtPass.getText().toString();
+        String e = edtEmail.getText().toString();
+        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !sdt.equals("") && !u.equals("") && !cmnd.equals("") && !p.equals("")&& !e.equals("")){
+            if (!gt.equals("Nam") && !gt.equals("Nu")){
+                Toast.makeText(QuanLiNVActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void addUser() {

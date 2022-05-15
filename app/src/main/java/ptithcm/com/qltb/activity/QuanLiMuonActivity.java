@@ -20,6 +20,7 @@ import java.util.Random;
 
 import ptithcm.com.qltb.R;
 import ptithcm.com.qltb.model.CT_PhieuMuon;
+import ptithcm.com.qltb.model.NguoiMuon;
 import ptithcm.com.qltb.model.NhanVien;
 import ptithcm.com.qltb.model.PhieuMuon;
 import ptithcm.com.qltb.model.ThietBi;
@@ -31,12 +32,15 @@ public class QuanLiMuonActivity extends AppCompatActivity {
     ArrayAdapter<PhieuMuon> phieuMuonAdapter;
     ArrayAdapter<CT_PhieuMuon> cTPMAdapter;
     ArrayAdapter<ThietBi> thietBiAdapter;
+    ArrayAdapter<NguoiMuon> nguoiMuonAdapter;
     NhanVien nhanVien;
     PhieuMuon phieuMuon;
     CT_PhieuMuon ct;
-    String MaNV;
+    String MaNV,p,maNM;
     Dialog dialogAdd;
     int kt;
+    EditText edtMaNM,edtPhong,edtGC;
+    Button btnThemPM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,37 +125,49 @@ public class QuanLiMuonActivity extends AppCompatActivity {
         dialogAdd = new Dialog(QuanLiMuonActivity.this);
         dialogAdd.setContentView(R.layout.dialog_them_pm);
 
-        final EditText edtMaNM = dialogAdd.findViewById(R.id.edtMaNM_PM_ADD);
-        final EditText edtPhong = dialogAdd.findViewById(R.id.edtPhong_PM_ADD);
-        final EditText edtGC = dialogAdd.findViewById(R.id.edtGC_PM_ADD);
-        final Button btnThemPM = dialogAdd.findViewById(R.id.btnThemPM);
+        edtMaNM = dialogAdd.findViewById(R.id.edtMaNM_PM_ADD);
+        edtPhong = dialogAdd.findViewById(R.id.edtPhong_PM_ADD);
+        edtGC = dialogAdd.findViewById(R.id.edtGC_PM_ADD);
+        btnThemPM = dialogAdd.findViewById(R.id.btnThemPM);
 
         btnThemPM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Random rand = new Random();
-                int ranNum = rand.nextInt(100)+1;
-                String maPM = "PM"+String.valueOf(ranNum);
-                String p = edtPhong.getText().toString();
-                String gc = edtGC.getText().toString();
-                String maNM = edtMaNM.getText().toString();
-                // thieu Kiem tra da muon chua
-                kiemTraMuon(maNM);
-                if (kt == 0){
-                String maNV = nhanVien.getMaNV();
-                long millis=System.currentTimeMillis();
-                java.sql.Date date = new java.sql.Date(millis);
-                String ngay = String.valueOf(date);
-                phieuMuon = new PhieuMuon(maPM,p,gc,maNM,maNV,ngay);
-                update();
-                }else {
-                    Toast.makeText(QuanLiMuonActivity.this, "Người Mượn Chưa Trả", Toast.LENGTH_LONG).show();
+                maNM = edtMaNM.getText().toString();
+                p = edtPhong.getText().toString();
+                if (kiemtradulieu()){
+                    themCTPhieuMuon();
                 }
 
             }
         });
-
         dialogAdd.show();
+    }
+
+    private void themCTPhieuMuon() {
+        Random rand = new Random();
+        int ranNum = rand.nextInt(100)+1;
+
+        String maPM = "PM"+String.valueOf(ranNum);
+        String gc = edtGC.getText().toString();
+        kiemTraMuon(maNM);
+        if (kt == 0){
+            String maNV = nhanVien.getMaNV();
+            long millis=System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            String ngay = String.valueOf(date);
+            phieuMuon = new PhieuMuon(maPM,p,gc,maNM,maNV,ngay);
+            update();
+        }
+    }
+
+    private boolean kiemtradulieu() {
+        if(!maNM.equals("") && !p.equals("")){
+            return true;
+        }else {
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     private void kiemTraMuon(String ma) {
@@ -162,11 +178,34 @@ public class QuanLiMuonActivity extends AppCompatActivity {
             phieuMuon = phieuMuonAdapter.getItem(i);
             cTPMAdapter = new ArrayAdapter<CT_PhieuMuon>(QuanLiMuonActivity.this, android.R.layout.simple_list_item_1);
             getCTFromDB(phieuMuon.getMaPM());
-            for (int j = 0;j<cTPMAdapter.getCount();j++){
-                thietBiAdapter = new ArrayAdapter<ThietBi>(QuanLiMuonActivity.this, android.R.layout.simple_list_item_1);
-                findTB(cTPMAdapter.getItem(j).getMaTB());
-            }
         }
+
+        nguoiMuonAdapter = new ArrayAdapter<NguoiMuon>(QuanLiMuonActivity.this, android.R.layout.simple_list_item_1);
+        getNguoiMuonFromDB(maNM);
+        if (nguoiMuonAdapter.getCount()==0){
+            kt = 1;
+            Toast.makeText(QuanLiMuonActivity.this, "Người mượn không tồn tại", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void getNguoiMuonFromDB(String ma) {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.query("NGUOIMUON",null,"MaNM=?",new String[]{ma},null,null,null);
+        nguoiMuonAdapter.clear();
+        while (cursor.moveToNext()){
+            String maNM = cursor.getString(0);
+            String ho = cursor.getString(1);
+            String ten = cursor.getString(2);
+            String gioiTinh = cursor.getString(3);
+            String ngaysinh = cursor.getString(4);
+            String diachi = cursor.getString(5);
+            String cmnd = cursor.getString(6);
+            String ghichu = cursor.getString(7);
+            String loai = cursor.getString(8);
+            NguoiMuon nm = new NguoiMuon(maNM, ho, ten, gioiTinh, ngaysinh, diachi, cmnd, ghichu, loai);
+            nguoiMuonAdapter.add(nm);
+        }
+        cursor.close();
     }
 
     private void getCTFromDB(String ma) {
@@ -179,29 +218,10 @@ public class QuanLiMuonActivity extends AppCompatActivity {
             String thoigiantra = cursor.getString(2);
             if (thoigiantra.equals("")){
                 kt = 1;
+                Toast.makeText(QuanLiMuonActivity.this, "Người Mượn Chưa Trả", Toast.LENGTH_LONG).show();
             }
             CT_PhieuMuon ct = new CT_PhieuMuon(maPM, maTB, thoigiantra);
             cTPMAdapter.add(ct);
-        }
-        cursor.close();
-    }
-
-    private void findTB(String ma){
-        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.query("THIETBI", null,"MaTB=?",new String[]{ma},null,null,null);
-        thietBiAdapter.clear();
-        while (cursor.moveToNext()) {
-            String matb = cursor.getString(0);
-            String tentb = cursor.getString(1);
-            String ghichu = cursor.getString(2);
-            String maloai = cursor.getString(3);
-            String tinhtrang = cursor.getString(5);
-            String trangthai = cursor.getString(4);
-            if (trangthai.equals("C")){
-                kt =1;
-            }
-            ThietBi thietbi = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
-            thietBiAdapter.add(thietbi);
         }
         cursor.close();
     }

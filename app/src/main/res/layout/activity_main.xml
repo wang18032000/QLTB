@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#E9C3BB"
     tools:context="ptithcm.com.qltb.activity.LoginActivity">
 
     <LinearLayout
@@ -47,8 +48,8 @@
             android:layout_height="wrap_content"
             android:text="Đăng nhập"
             android:id="@+id/btnLogin"
-            android:textColor="#FFFF00"
-            android:background="#FF0000" />
+            android:textColor="#FFFFFF"
+            android:background="#C13346" />
 
     </LinearLayout>
 </RelativeLayout>

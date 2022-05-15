@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#E9C3BB"
     tools:context="ptithcm.com.qltb.activity.AdminActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/txtAD" />
+            android:id="@+id/txtAD"
+            android:layout_marginBottom="4dp"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
         <Button
             android:text="Quản Lí Nhân Viên"
@@ -30,7 +34,10 @@
             android:layout_below="@+id/txtAD"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="68dp"
-            android:id="@+id/btnQLNV" />
+            android:id="@+id/btnQLNV"
+            android:textColor="#FFFFFF"
+            android:background="#C13346"
+            android:layout_margin="2dp"/>
 
         <Button
             android:text="Quản Lí Thiết bị"
@@ -38,7 +45,10 @@
             android:layout_height="60dp"
             android:id="@+id/btnQLTB_ad"
             android:layout_below="@+id/btnQLNV"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:background="#C13346"
+            android:layout_margin="2dp"/>
 
         <Button
             android:text="Quản Lí Người Mượn"
@@ -46,7 +56,10 @@
             android:layout_height="60dp"
             android:id="@+id/btnQLNM_ad"
             android:layout_below="@+id/btnQLTB_ad"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:background="#C13346"
+            android:layout_margin="2dp"/>
 
     </LinearLayout>
 
