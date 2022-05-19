@@ -41,7 +41,14 @@
         <activity
             android:name=".activity.QuanLiNVActivity"
             android:label="Quản Lí Nhân Viên" />
-        <activity android:name=".activity.QuanLiNguoiMuonActivity"></activity>
+        <activity android:name=".activity.QuanLiNguoiMuonActivity" />
+        <activity android:name=".activity.ThongKeActivity" />
+        <activity android:name=".activity.DanhSachPhieuMuonCTraActivity"
+            android:label="Danh Sách Phiếu Mượn Chưa Trả"/>
+        <activity android:name=".activity.DanhSachPhieuNhapActivity"
+            android:label="Danh Sách Phiếu Nhập"/>
+        <activity android:name=".activity.DanhSachPhieuThanhLyActivity"
+            android:label="Danh Sách Phiếu Thanh Lý"></activity>
     </application>
 
 </manifest>

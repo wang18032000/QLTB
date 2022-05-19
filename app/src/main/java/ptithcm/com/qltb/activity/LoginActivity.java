@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("taikhoan", taiKhoan);
             startActivity(intent);
         }
-        if (taiKhoanAdapter.getItem(0).getMaPQ().equals("US01")){
+        if (taiKhoanAdapter.getItem(0).getMaPQ().equals("US")){
             Intent intent = new Intent(LoginActivity.this, UserActivity.class);
             intent.putExtra("taikhoan", taiKhoan);
             startActivity(intent);

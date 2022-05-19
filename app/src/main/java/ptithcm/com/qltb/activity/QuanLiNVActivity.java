@@ -65,7 +65,6 @@ public class QuanLiNVActivity extends AppCompatActivity {
     private void showDialogNhanVien() {
         dialogNV = new Dialog(QuanLiNVActivity.this);
         dialogNV.setContentView(R.layout.dialog_ct_nhan_vien);
-
         txtMa = (TextView) dialogNV.findViewById(R.id.txtMaNV_detail);
         edtHo = (EditText) dialogNV.findViewById(R.id.edtHoNV_detail);
         edtTen = (EditText) dialogNV.findViewById(R.id.edtTenNV_detail);
@@ -73,12 +72,10 @@ public class QuanLiNVActivity extends AppCompatActivity {
         edtCMND = (EditText) dialogNV.findViewById(R.id.edtCMNDNV_detail);
         edtSDT = (EditText) dialogNV.findViewById(R.id.edtSdt_detail);
         btnCapNhat = dialogNV.findViewById(R.id.btnCapNhatNV);
-
         spChucVu = (Spinner) dialogNV.findViewById(R.id.spChucVu_detail);
         cvAdapter = new ArrayAdapter<ChucVu>(QuanLiNVActivity.this, android.R.layout.simple_list_item_1);
         cvAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spChucVu.setAdapter(cvAdapter);
-
         txtMa.setText(nhanVien.getMaNV());
         edtHo.setText(nhanVien.getHo());
         edtTen.setText(nhanVien.getTen());
@@ -98,7 +95,6 @@ public class QuanLiNVActivity extends AppCompatActivity {
 
             }
         });
-
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -53,4 +53,9 @@ public class PhieuNhap implements Serializable {
     public void setMaNV(String maNV) {
         this.maNV = maNV;
     }
+
+    @Override
+    public String toString() {
+        return maPN+" "+thoiGianNhap;
+    }
 }

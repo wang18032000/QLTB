@@ -59,7 +59,7 @@ public class UserActivity extends AppCompatActivity {
         btnTK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserActivity.this, QuanLiMuonActivity.class);
+                Intent intent = new Intent(UserActivity.this, ThongKeActivity.class);
                 intent.putExtra("nhanvien",nhanVien);
                 startActivity(intent);
             }

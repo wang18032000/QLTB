@@ -29,7 +29,7 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
     ImageView imgThemNM;
     ListView lvNguoiMuon;
     TextView txtMa;
-    EditText edtHo, edtTen, edtGioiTinh, edtNgaySinh, edtDiaChi, edtCMND, edtGhiChu, edtLoai;
+    EditText edtMa, edtHo, edtTen, edtGioiTinh, edtNgaySinh, edtDiaChi, edtCMND, edtGhiChu, edtLoai;
     Dialog dialogNM,dialogThemNM;
     Button btnCapNhat, btnThem;
 
@@ -114,7 +114,6 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         }
     }
 
-
     private void update() {
         ContentValues values = new ContentValues();
         values.put("MaNM", txtMa.getText().toString());
@@ -139,6 +138,7 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         dialogThemNM = new Dialog(QuanLiNguoiMuonActivity.this);
         dialogThemNM.setContentView(R.layout.dialog_them_nguoi_muon);
 
+        edtMa = (EditText) dialogThemNM.findViewById(R.id.edtMaNM_add);
         edtHo = (EditText) dialogThemNM.findViewById(R.id.edtHoNM_add);
         edtTen = (EditText) dialogThemNM.findViewById(R.id.edtTenNM_add);
         edtGioiTinh = (EditText) dialogThemNM.findViewById(R.id.edtGTNM_add);
@@ -162,7 +162,7 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
 
     private void add() {
         ContentValues values = new ContentValues();
-        values.put("MaNM", layMa(edtLoai.getText().toString()));
+        values.put("MaNM", edtMa.getText().toString());
         values.put("Ho", edtHo.getText().toString());
         values.put("Ten", edtTen.getText().toString());
         values.put("GioiTinh", edtGioiTinh.getText().toString());
@@ -180,19 +180,19 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
             Toast.makeText(QuanLiNguoiMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
     }
 
-    public String layMa(String str){
-        String ten = "";
-        String[] tu = str.split(" ");
-        Random rand = new Random();
-        int ranNum = rand.nextInt(100)+1;
-        for (String s : tu) {
-            if (!s.equals("") && !s.equals(null)) {
-                ten+=String.valueOf(s.charAt(0));
-                ten.toUpperCase();
-            }
-        }
-        return ten+String.valueOf(ranNum);
-    }
+//    public String layMa(String str){
+//        String ten = "";
+//        String[] tu = str.split(" ");
+//        Random rand = new Random();
+//        int ranNum = rand.nextInt(100)+1;
+//        for (String s : tu) {
+//            if (!s.equals("") && !s.equals(null)) {
+//                ten+=String.valueOf(s.charAt(0));
+//                ten.toUpperCase();
+//            }
+//        }
+//        return ten+String.valueOf(ranNum);
+//    }
 
     private void addControls() {
         imgThemNM = (ImageView) findViewById(R.id.imgThemNM);

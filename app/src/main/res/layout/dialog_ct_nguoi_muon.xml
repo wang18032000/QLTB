@@ -189,7 +189,7 @@
         android:layout_marginBottom="2dp">
 
         <TextView
-            android:text="CMND: "
+            android:text="SĐT: "
             android:layout_width="107dp"
             android:gravity="center"
             android:layout_height="wrap_content"

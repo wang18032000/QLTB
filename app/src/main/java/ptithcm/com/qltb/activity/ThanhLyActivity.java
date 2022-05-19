@@ -20,7 +20,7 @@ import ptithcm.com.qltb.model.PhieuNhap;
 import ptithcm.com.qltb.model.PhieuThanhLy;
 import ptithcm.com.qltb.model.ThietBi;
 
-public class ThanhLyActivity extends AppCompatActivity {
+public class    ThanhLyActivity extends AppCompatActivity {
 
     PhieuThanhLy phieuThanhLy;
     TextView txtNgayTL,txtTenTB;
