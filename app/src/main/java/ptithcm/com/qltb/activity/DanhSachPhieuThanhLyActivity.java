@@ -3,6 +3,10 @@ package ptithcm.com.qltb.activity;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,10 +46,34 @@ public class DanhSachPhieuThanhLyActivity extends AppCompatActivity {
         while (cursor.moveToNext()){
             String maPN = cursor.getString(0);
             String thoigian = cursor.getString(1);
-            String maNV = cursor.getString(2);
-            PhieuThanhLy ptl = new PhieuThanhLy(maPN,thoigian,maNV);
+            String ghichu = cursor.getString(2);
+            String maNV = cursor.getString(3);
+            PhieuThanhLy ptl = new PhieuThanhLy(maPN,thoigian,ghichu,maNV);
             phieuTLAdapter.add(ptl);
         }
         cursor.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_option_menu, menu);
+
+        MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
+        SearchView searchView = (SearchView) mnuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                phieuTLAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

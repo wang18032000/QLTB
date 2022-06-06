@@ -8,21 +8,19 @@ import java.io.Serializable;
 public class ThietBi implements Serializable {
     private String maTB;
     private String tenTB;
-    private String ghiChu;
+    private String maTT;
     private String maLoai;
-    private String trangThai;
-    private String tinhTrang;
+    private String maP;
 
     public ThietBi() {
     }
 
-    public ThietBi(String maTB, String tenTB, String ghiChu, String maLoai, String trangThai, String tinhTrang) {
+    public ThietBi(String maTB, String tenTB, String maTT, String maLoai, String maP) {
         this.maTB = maTB;
         this.tenTB = tenTB;
-        this.ghiChu = ghiChu;
+        this.maTT = maTT;
         this.maLoai = maLoai;
-        this.trangThai = trangThai;
-        this.tinhTrang = tinhTrang;
+        this.maP = maP;
     }
 
     public String getMaTB() {
@@ -41,12 +39,12 @@ public class ThietBi implements Serializable {
         this.tenTB = tenTB;
     }
 
-    public String getGhiChu() {
-        return ghiChu;
+    public String getMaTT() {
+        return maTT;
     }
 
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
+    public void setMaTT(String maTT) {
+        this.maTT = maTT;
     }
 
     public String getMaLoai() {
@@ -57,24 +55,16 @@ public class ThietBi implements Serializable {
         this.maLoai = maLoai;
     }
 
-    public String getTrangThai() {
-        return trangThai;
+    public String getMaP() {
+        return maP;
     }
 
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public String getTinhTrang() {
-        return tinhTrang;
-    }
-
-    public void setTinhTrang(String tinhTrang) {
-        this.tinhTrang = tinhTrang;
+    public void setMaP(String maP) {
+        this.maP = maP;
     }
 
     @Override
     public String toString() {
-        return tenTB+" - "+trangThai;
+        return tenTB;
     }
 }

@@ -43,4 +43,9 @@ public class CT_PhieuThanhLy implements Serializable {
     public void setDonGia(String donGia) {
         this.donGia = donGia;
     }
+
+    @Override
+    public String toString() {
+        return maTB + " " + donGia;
+    }
 }

@@ -9,16 +9,14 @@ import java.io.Serializable;
 public class TaiKhoan implements Serializable {
     private String username;
     private String password;
-    private String email;
     private String maPQ;
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(String username, String password, String email, String maPQ) {
+    public TaiKhoan(String username, String password, String maPQ) {
         this.username = username;
         this.password = password;
-        this.email = email;
         this.maPQ = maPQ;
     }
 
@@ -36,14 +34,6 @@ public class TaiKhoan implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getMaPQ() {

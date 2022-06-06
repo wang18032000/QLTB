@@ -51,27 +51,7 @@
             android:id="@+id/edtHoNM_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="Họ"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtTenNM_add"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:hint="Tên"/>
+            android:hint="Họ và tên"/>
 
     </LinearLayout>
 
@@ -108,30 +88,10 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edtNSNM_add"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:hint="Ngày Sinh"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/edtDCNM_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="Địa Chỉ"/>
+            android:hint="SDT"/>
 
     </LinearLayout>
 
@@ -151,27 +111,7 @@
             android:id="@+id/edtCMNDNM_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="SĐT"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtGCNM_add"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:hint="Ghi Chú"/>
+            android:hint="CMND"/>
 
     </LinearLayout>
 

@@ -6,23 +6,31 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 import ptithcm.com.qltb.R;
+import ptithcm.com.qltb.model.LoaiThietBi;
 import ptithcm.com.qltb.model.NhanVien;
 import ptithcm.com.qltb.model.PhieuMuon;
 import ptithcm.com.qltb.model.PhieuNhap;
 import ptithcm.com.qltb.model.PhieuThanhLy;
+import ptithcm.com.qltb.model.Phong;
 import ptithcm.com.qltb.model.ThietBi;
+import ptithcm.com.qltb.model.TrangThai;
 
 public class QuanLiThietBiActivity extends AppCompatActivity {
 
@@ -33,9 +41,16 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
     Button btnNhap, btnThanhLy, btnCapNhat;
     ListView lvThietBi;
     ArrayAdapter<ThietBi> thietBiAdapter;
+    ArrayAdapter<TrangThai> trangThaiAdapter;
+    ArrayAdapter<LoaiThietBi> loaiAdapter;
+    ArrayAdapter<Phong> phongAdapter;
+    LoaiThietBi loai;
+    Phong phong;
+    TrangThai trangThai;
     ThietBi thietBi;
     Dialog dialogCTTB;
-    EditText edtTen, edtGhiChu,edtTrangThai,edtTinhTrang;
+    EditText edtTen;
+    Spinner spLoai, spPhong, spTrangThai;
     TextView txtMa;
     
     @Override
@@ -134,17 +149,22 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
 
         txtMa = (TextView) dialogCTTB.findViewById(R.id.txtMaTB_detail);
         edtTen = (EditText) dialogCTTB.findViewById(R.id.edtTenTB_detail);
-        edtGhiChu = (EditText) dialogCTTB.findViewById(R.id.edtGhiChu_detail);
-        edtTrangThai = (EditText) dialogCTTB.findViewById(R.id.edtTrangThai_detail);
-        edtTinhTrang = (EditText) dialogCTTB.findViewById(R.id.edtTinhTrang_detail);
+        spTrangThai = (Spinner) dialogCTTB.findViewById(R.id.spTrangThai_edit);
+        spLoai = (Spinner) dialogCTTB.findViewById(R.id.spLoai_edit);
+        spPhong = (Spinner) dialogCTTB.findViewById(R.id.spPhong_edit);
         btnCapNhat =(Button) dialogCTTB.findViewById(R.id.btnCapNhat);
 
         txtMa.setText(thietBi.getMaTB());
         edtTen.setText(thietBi.getTenTB());
-        edtGhiChu.setText(thietBi.getGhiChu());
-        edtTrangThai.setText(thietBi.getTrangThai());
-        edtTinhTrang.setText(thietBi.getTinhTrang());
-
+        trangThaiAdapter = new ArrayAdapter<TrangThai>(QuanLiThietBiActivity.this, android.R.layout.simple_list_item_1);
+        spTrangThai.setAdapter(trangThaiAdapter);
+        getTrangThai();
+        loaiAdapter = new ArrayAdapter<LoaiThietBi>(QuanLiThietBiActivity.this, android.R.layout.simple_list_item_1);
+        spLoai.setAdapter(loaiAdapter);
+        getLoai();
+        phongAdapter = new ArrayAdapter<Phong>(QuanLiThietBiActivity.this, android.R.layout.simple_list_item_1);
+        spPhong.setAdapter(phongAdapter);
+        getPhong();
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,15 +173,111 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
                 }
             }
         });
+        spTrangThai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thietBi.setMaTT(trangThaiAdapter.getItem(i).getMaTT());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spLoai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thietBi.setMaLoai(loaiAdapter.getItem(i).getMaLoai());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thietBi.setMaP(phongAdapter.getItem(i).getMaP());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         dialogCTTB.show();
+    }
+
+    private void getPhong() {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM PHONG", null);
+        phongAdapter.clear();
+        while (cursor.moveToNext()) {
+            String ma = cursor.getString(0);
+            String loai = cursor.getString(1);
+            if (ma.equals(thietBi.getMaP())){
+                Phong p = new Phong(ma, loai);
+                phongAdapter.insert(p,0);
+            } else {
+                Phong p = new Phong(ma, loai);
+                phongAdapter.add(p);
+            }
+        }
+        cursor.close();
+    }
+
+    private void getTrangThai() {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM TRANGTHAI", null);
+        trangThaiAdapter.clear();
+        while (cursor.moveToNext()) {
+            String ma = cursor.getString(0);
+            String ten = cursor.getString(1);
+//            if (thietBi.getMaTT().equals("DTL")&&(ma.equals("DTL"))) {
+//                TrangThai tt = new TrangThai(ma, ten);
+//                trangThaiAdapter.add(tt);
+//                break;
+//            };
+//            if (ma.equals("DM")) {
+//                TrangThai tt = new TrangThai(ma, ten);
+//                trangThaiAdapter.add(tt);
+//                break;
+//            }else
+            if (ma.equals(thietBi.getMaTT())){
+                TrangThai tt = new TrangThai(ma, ten);
+                trangThaiAdapter.insert(tt,0);
+            } else {
+                TrangThai tt = new TrangThai(ma, ten);
+                trangThaiAdapter.add(tt);
+            }
+        }
+        cursor.close();
+    }
+
+    private void getLoai() {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM LOAI", null);
+        loaiAdapter.clear();
+        while (cursor.moveToNext()) {
+            String ma = cursor.getString(0);
+            String ten = cursor.getString(1);
+            if (ma.equals(thietBi.getMaLoai())){
+                LoaiThietBi loai = new LoaiThietBi(ma, ten);
+                loaiAdapter.insert(loai,0);
+            } else {
+                LoaiThietBi loai = new LoaiThietBi(ma, ten);
+                loaiAdapter.add(loai);
+            }
+        }
+        cursor.close();
     }
 
     private boolean kiemtradulieu() {
         String ten = edtTen.getText().toString();
-        String trT =edtTrangThai.getText().toString();
-        String tTr =edtTinhTrang.getText().toString();
 
-        if(!ten.equals("") && !trT.equals("") && !tTr.equals("")){
+
+        if(!ten.equals("")){
             return true;
         }else {
             Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -173,10 +289,9 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("MaTB",thietBi.getMaTB());
         values.put("TenTB",edtTen.getText().toString());
-        values.put("Ghichu",edtGhiChu.getText().toString());
+        values.put("MaTT",thietBi.getMaTT());
         values.put("MaLoai",thietBi.getMaLoai());
-        values.put("TrangThai",edtTrangThai.getText().toString());
-        values.put("TinhTrang",edtTinhTrang.getText().toString());
+        values.put("MaP",thietBi.getMaP());
 
         int kq = LoginActivity.database.update("THIETBI", values, "MaTB = ?", new String[]{thietBi.getMaTB()});
         if (kq != 0){
@@ -208,13 +323,35 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String matb = cursor.getString(0);
             String tentb = cursor.getString(1);
-            String ghichu = cursor.getString(2);
+            String matt = cursor.getString(2);
             String maloai = cursor.getString(3);
-            String tinhtrang = cursor.getString(5);
-            String trangthai = cursor.getString(4);
-            ThietBi tb = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
+            String map = cursor.getString(4);
+            ThietBi tb = new ThietBi(matb, tentb, matt, maloai, map);
             thietBiAdapter.add(tb);
         }
         cursor.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_option_menu, menu);
+
+        MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
+        SearchView searchView = (SearchView) mnuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                thietBiAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

@@ -94,10 +94,9 @@ public class    ThanhLyActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("MaTB",thietBi.getMaTB());
         values.put("TenTB",thietBi.getTenTB());
-        values.put("GhiChu",thietBi.getGhiChu());
+        values.put("MaTT","DTL");
         values.put("MaLoai",thietBi.getMaLoai());
-        values.put("TrangThai","Da TL");
-        values.put("TinhTrang","Da TL");
+        values.put("MaP",thietBi.getMaP());
         int kq = (int) LoginActivity.database.update("THIETBI", values, "MaTB = ?", new String[]{thietBi.getMaTB()});
         if (kq >0){
             Toast.makeText(ThanhLyActivity.this, "Đã cập nhật thiết bị", Toast.LENGTH_LONG).show();
@@ -130,20 +129,20 @@ public class    ThanhLyActivity extends AppCompatActivity {
         thietBiAdapter = new ArrayAdapter<ThietBi>(ThanhLyActivity.this, android.R.layout.simple_list_item_1);
         lvThietBiTL.setAdapter(thietBiAdapter);
         getThietBiFromDB("CTL");
+        txtNgayTL.setText(phieuThanhLy.getThoiGianTL());
     }
 
     private void getThietBiFromDB(String T) {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.query("THIETBI", null,"TinhTrang = ?",new String[]{T},null,null,null);
+        Cursor cursor = LoginActivity.database.query("THIETBI", null,"MaTT = ?",new String[]{T},null,null,null);
         thietBiAdapter.clear();
         while (cursor.moveToNext()) {
             String matb = cursor.getString(0);
             String tentb = cursor.getString(1);
-            String ghichu = cursor.getString(2);
+            String matt = cursor.getString(2);
             String maloai = cursor.getString(3);
-            String tinhtrang = cursor.getString(5);
-            String trangthai = cursor.getString(4);
-            ThietBi tb = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
+            String map = cursor.getString(4);
+            ThietBi tb = new ThietBi(matb, tentb, matt, maloai,map);
             thietBiAdapter.add(tb);
         }
         cursor.close();

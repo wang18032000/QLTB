@@ -21,7 +21,7 @@ import ptithcm.com.qltb.R;
 import ptithcm.com.qltb.model.TaiKhoan;
 
 public class LoginActivity extends AppCompatActivity {
-    public static String DATABASE_NAME = "QLTB.db";
+    public static String DATABASE_NAME = "QLMTB.db";
     String DB_PATH_SUFFIX = "/databases/";
     public static SQLiteDatabase database = null;
     EditText Username,Password;
@@ -99,9 +99,8 @@ public class LoginActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String user = cursor.getString(0);
             String pass = cursor.getString(1);
-            String email = cursor.getString(2);
-            String pq = cursor.getString(3);
-            taiKhoan = new TaiKhoan(user, pass, email, pq);
+            String pq = cursor.getString(2);
+            taiKhoan = new TaiKhoan(user, pass, pq);
             taiKhoanAdapter.add(taiKhoan);
         }
         cursor.close();

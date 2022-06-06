@@ -54,7 +54,7 @@
         android:layout_marginBottom="2dp">
 
         <TextView
-            android:text="Họ: "
+            android:text="Họ và tên: "
             android:layout_width="107dp"
             android:gravity="center"
             android:layout_height="wrap_content"
@@ -65,33 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edtHoNM_detail"
-            android:layout_weight="1"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <TextView
-            android:text="Tên: "
-            android:layout_width="107dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView6"
-            android:textSize="14sp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtTenNM_detail"
             android:layout_weight="1"
             android:textSize="14sp" />
 
@@ -135,34 +108,7 @@
         android:layout_marginBottom="2dp">
 
         <TextView
-            android:text="Ngày Sinh: "
-            android:layout_width="107dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView8"
-            android:textSize="14sp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtNSNM_detail"
-            android:layout_weight="1"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <TextView
-            android:text="Địa Chỉ: "
+            android:text="SDT: "
             android:layout_width="107dp"
             android:gravity="center"
             android:layout_height="wrap_content"
@@ -189,7 +135,7 @@
         android:layout_marginBottom="2dp">
 
         <TextView
-            android:text="SĐT: "
+            android:text="CMND: "
             android:layout_width="107dp"
             android:gravity="center"
             android:layout_height="wrap_content"
@@ -200,33 +146,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edtCMNDNM_detail"
-            android:layout_weight="1"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <TextView
-            android:text="Ghi Chú: "
-            android:layout_width="107dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView11"
-            android:textSize="14sp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtGCNM_detail"
             android:layout_weight="1"
             android:textSize="14sp" />
 

@@ -5,6 +5,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +23,6 @@ import android.widget.Toast;
 import java.util.Random;
 
 import ptithcm.com.qltb.R;
-import ptithcm.com.qltb.model.ChucVu;
 import ptithcm.com.qltb.model.NhanVien;
 import ptithcm.com.qltb.model.PhanQuyen;
 
@@ -29,13 +32,11 @@ public class QuanLiNVActivity extends AppCompatActivity {
     ImageView imgThemNV;
     ListView lvNhanVien;
     TextView txtMa;
-    EditText edtHo, edtTen, edtGioiTinh, edtCMND, edtSDT, edtUser, edtPass, edtEmail;
-    Spinner spChucVu, spPhanQuyen;
+    EditText edtHoTen, edtGioiTinh, edtSDT, edtCMND, edtUser, edtPass;
+    Spinner spPhanQuyen;
     Dialog dialogNV, dialogThemNV;
     Button btnCapNhat, btnThem;
-    ArrayAdapter<ChucVu> cvAdapter;
     ArrayAdapter<PhanQuyen> pqAdapter;
-    ChucVu chucVu;
     PhanQuyen phanQuyen;
 
     @Override
@@ -66,35 +67,18 @@ public class QuanLiNVActivity extends AppCompatActivity {
         dialogNV = new Dialog(QuanLiNVActivity.this);
         dialogNV.setContentView(R.layout.dialog_ct_nhan_vien);
         txtMa = (TextView) dialogNV.findViewById(R.id.txtMaNV_detail);
-        edtHo = (EditText) dialogNV.findViewById(R.id.edtHoNV_detail);
-        edtTen = (EditText) dialogNV.findViewById(R.id.edtTenNV_detail);
+        edtHoTen = (EditText) dialogNV.findViewById(R.id.edtHoNV_detail);
         edtGioiTinh = (EditText) dialogNV.findViewById(R.id.edtGTNV_detail);
-        edtCMND = (EditText) dialogNV.findViewById(R.id.edtCMNDNV_detail);
         edtSDT = (EditText) dialogNV.findViewById(R.id.edtSdt_detail);
+        edtCMND = (EditText) dialogNV.findViewById(R.id.edtCMNDNV_detail);
         btnCapNhat = dialogNV.findViewById(R.id.btnCapNhatNV);
-        spChucVu = (Spinner) dialogNV.findViewById(R.id.spChucVu_detail);
-        cvAdapter = new ArrayAdapter<ChucVu>(QuanLiNVActivity.this, android.R.layout.simple_list_item_1);
-        cvAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spChucVu.setAdapter(cvAdapter);
+
         txtMa.setText(nhanVien.getMaNV());
-        edtHo.setText(nhanVien.getHo());
-        edtTen.setText(nhanVien.getTen());
+        edtHoTen.setText(nhanVien.getHoTen());
         edtGioiTinh.setText(nhanVien.getGioiTinh());
-        edtCMND.setText(nhanVien.getCmnd());
         edtSDT.setText(nhanVien.getSdt());
-        getChucVuFromDB();
+        edtCMND.setText(nhanVien.getCmnd());
 
-        spChucVu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                nhanVien.setMaCV(cvAdapter.getItem(i).getMaCV());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,12 +92,11 @@ public class QuanLiNVActivity extends AppCompatActivity {
     }
 
     private boolean kiemtradulieuCapNhat() {
-        String ho = edtHo.getText().toString();
-        String ten = edtTen.getText().toString();
+        String ho = edtHoTen.getText().toString();
         String gt = edtGioiTinh.getText().toString();
         String cmnd = edtCMND.getText().toString();
         String sdt = edtSDT.getText().toString();
-        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !sdt.equals("") && !cmnd.equals("")){
+        if (!ho.equals("") && !gt.equals("") && !sdt.equals("") && !cmnd.equals("")){
             if (!gt.equals("Nam") && !gt.equals("Nu")){
                 Toast.makeText(QuanLiNVActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
                 return false;
@@ -125,45 +108,14 @@ public class QuanLiNVActivity extends AppCompatActivity {
         }
     }
 
-    private void getChucVuFromDB() {
-        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM CHUCVU",null);
-        cvAdapter.clear();
-        while (cursor.moveToNext()){
-            String maCV = cursor.getString(0);
-            String tenCV = cursor.getString(1);
-            ChucVu chucVu = new ChucVu(maCV,tenCV);
-            if (maCV.equals(nhanVien.getMaCV())){
-                cvAdapter.insert(chucVu,0);
-            }
-            cvAdapter.add(chucVu);
-        }
-        cursor.close();
-    }
-
-    private void getChucVuFromDBSpinner() {
-        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM CHUCVU",null);
-        cvAdapter.clear();
-        while (cursor.moveToNext()){
-            String maCV = cursor.getString(0);
-            String tenCV = cursor.getString(1);
-            ChucVu chucVu = new ChucVu(maCV,tenCV);
-            cvAdapter.add(chucVu);
-        }
-        cursor.close();
-    }
-
     private void update() {
         ContentValues values = new ContentValues();
         values.put("MaNV", nhanVien.getMaNV());
-        values.put("Ho", edtHo.getText().toString());
-        values.put("Ten", edtTen.getText().toString());
+        values.put("HoTen", edtHoTen.getText().toString());
         values.put("GioiTinh", edtGioiTinh.getText().toString());
-        values.put("CMND", edtCMND.getText().toString());
         values.put("SDT", edtSDT.getText().toString());
+        values.put("CMND", edtCMND.getText().toString());
         values.put("UserName",nhanVien.getUsername());
-        values.put("MaCV",nhanVien.getMaCV());
         int kq = (int) LoginActivity.database.update("NHANVIEN",values,"MaNV = ?",new String[]{nhanVien.getMaNV()});
         if (kq >0){
             getNhanVienFromDB();
@@ -177,42 +129,20 @@ public class QuanLiNVActivity extends AppCompatActivity {
         dialogThemNV = new Dialog(QuanLiNVActivity.this);
         dialogThemNV.setContentView(R.layout.dialog_them_nhan_vien);
 
-        edtHo = (EditText) dialogThemNV.findViewById(R.id.edtHoNV_add);
-        edtTen = (EditText) dialogThemNV.findViewById(R.id.edtTenNV_add);
+        edtHoTen = (EditText) dialogThemNV.findViewById(R.id.edtHoNV_add);
         edtGioiTinh = (EditText) dialogThemNV.findViewById(R.id.edtGTNV_add);
         edtCMND = (EditText) dialogThemNV.findViewById(R.id.edtCMNDNV_add);
         edtSDT = (EditText) dialogThemNV.findViewById(R.id.edtSdt_add);
         edtUser = (EditText) dialogThemNV.findViewById(R.id.edtUser_add);
         edtPass = (EditText) dialogThemNV.findViewById(R.id.edtPass_add);
-        edtEmail = (EditText) dialogThemNV.findViewById(R.id.edtEmail_add);
         btnThem = (Button) dialogThemNV.findViewById(R.id.btnThemNV);
-
-        spChucVu = (Spinner) dialogThemNV.findViewById(R.id.spChucVu_add1);
-        cvAdapter = new ArrayAdapter<ChucVu>(QuanLiNVActivity.this, android.R.layout.simple_list_item_1);
-        cvAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spChucVu.setAdapter(cvAdapter);
 
         spPhanQuyen = (Spinner) dialogThemNV.findViewById(R.id.spQuyen_add);
         pqAdapter = new ArrayAdapter<PhanQuyen>(QuanLiNVActivity.this, android.R.layout.simple_list_item_1);
         pqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPhanQuyen.setAdapter(pqAdapter);
 
-        getChucVuFromDBSpinner();
         getPhanQuyenFromDB();
-
-        spChucVu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                chucVu = new ChucVu();
-                chucVu = cvAdapter.getItem(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                chucVu = new ChucVu();
-                chucVu = cvAdapter.getItem(0);
-            }
-        });
 
         spPhanQuyen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -241,15 +171,13 @@ public class QuanLiNVActivity extends AppCompatActivity {
     }
 
     private boolean kiemtradulieuThem() {
-        String ho = edtHo.getText().toString();
-        String ten = edtTen.getText().toString();
+        String ho = edtHoTen.getText().toString();
         String gt = edtGioiTinh.getText().toString();
         String cmnd = edtCMND.getText().toString();
         String sdt = edtSDT.getText().toString();
         String u = edtUser.getText().toString();
         String p = edtPass.getText().toString();
-        String e = edtEmail.getText().toString();
-        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !sdt.equals("") && !u.equals("") && !cmnd.equals("") && !p.equals("")&& !e.equals("")){
+        if (!ho.equals("")  && !gt.equals("") && !sdt.equals("") && !u.equals("") && !cmnd.equals("") && !p.equals("") ){
             if (!gt.equals("Nam") && !gt.equals("Nu")){
                 Toast.makeText(QuanLiNVActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
                 return false;
@@ -265,7 +193,6 @@ public class QuanLiNVActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("UserName",edtUser.getText().toString());
         values.put("Password",edtPass.getText().toString());
-        values.put("Email",edtEmail.getText().toString());
         values.put("MaPQ",phanQuyen.getMaPQ().toString());
         int kq = (int) LoginActivity.database.insert("TAIKHOAN", null, values);
         if (kq >0){
@@ -278,13 +205,11 @@ public class QuanLiNVActivity extends AppCompatActivity {
     private void add() {
         ContentValues values = new ContentValues();
         values.put("MaNV", getMaNV());
-        values.put("Ho", edtHo.getText().toString());
-        values.put("Ten", edtTen.getText().toString());
+        values.put("HoTen", edtHoTen.getText().toString());
         values.put("GioiTinh", edtGioiTinh.getText().toString());
-        values.put("CMND", edtCMND.getText().toString());
         values.put("SDT", edtSDT.getText().toString());
+        values.put("CMND", edtCMND.getText().toString());
         values.put("UserName",edtUser.getText().toString());
-        values.put("MaCV",chucVu.getMaCV().toString());
         int kq = (int) LoginActivity.database.insert("NHANVIEN",null, values);
         if (kq >0) {
             getNhanVienFromDB();
@@ -327,16 +252,36 @@ public class QuanLiNVActivity extends AppCompatActivity {
         nvAdaptor.clear();
         while (cursor.moveToNext()){
             String maNV = cursor.getString(0);
-            String ho = cursor.getString(1);
-            String ten = cursor.getString(2);
-            String gioiTinh = cursor.getString(3);
+            String hoten = cursor.getString(1);
+            String gioiTinh = cursor.getString(2);
+            String sdt = cursor.getString(3);
             String cmnd = cursor.getString(4);
-            String sdt = cursor.getString(5);
-            String username = cursor.getString(6);
-            String macv = cursor.getString(7);
-            NhanVien nv = new NhanVien(maNV, ho, ten, gioiTinh, cmnd, sdt, username, macv);
+            String username = cursor.getString(5);
+            NhanVien nv = new NhanVien(maNV, hoten, gioiTinh, sdt, cmnd, username);
             nvAdaptor.add(nv);
         }
         cursor.close();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_option_menu, menu);
+
+        MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
+        SearchView searchView = (SearchView) mnuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                nvAdaptor.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

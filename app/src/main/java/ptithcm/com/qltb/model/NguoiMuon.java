@@ -8,27 +8,21 @@ import java.io.Serializable;
 
 public class NguoiMuon implements Serializable {
     private String maNM;
-    private String ho;
-    private String ten;
+    private String hoTen;
     private String gioiTinh;
-    private String ngaySinh;
-    private String diaChi;
+    private String sDT;
     private String cmnd;
-    private String ghiChu;
     private String loai;
 
     public NguoiMuon() {
     }
 
-    public NguoiMuon(String maNM, String ho, String ten, String gioiTinh, String ngaySinh, String diaChi, String cmnd, String ghiChu, String loai) {
+    public NguoiMuon(String maNM, String hoTen, String gioiTinh, String sDT, String cmnd, String loai) {
         this.maNM = maNM;
-        this.ho = ho;
-        this.ten = ten;
+        this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
-        this.ngaySinh = ngaySinh;
-        this.diaChi = diaChi;
+        this.sDT = sDT;
         this.cmnd = cmnd;
-        this.ghiChu = ghiChu;
         this.loai = loai;
     }
 
@@ -40,20 +34,12 @@ public class NguoiMuon implements Serializable {
         this.maNM = maNM;
     }
 
-    public String getHo() {
-        return ho;
+    public String getHoTen() {
+        return hoTen;
     }
 
-    public void setHo(String ho) {
-        this.ho = ho;
-    }
-
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
     }
 
     public String getGioiTinh() {
@@ -64,20 +50,12 @@ public class NguoiMuon implements Serializable {
         this.gioiTinh = gioiTinh;
     }
 
-    public String getNgaySinh() {
-        return ngaySinh;
+    public String getsDT() {
+        return sDT;
     }
 
-    public void setNgaySinh(String ngaySinh) {
-        this.ngaySinh = ngaySinh;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
+    public void setsDT(String sDT) {
+        this.sDT = sDT;
     }
 
     public String getCmnd() {
@@ -86,14 +64,6 @@ public class NguoiMuon implements Serializable {
 
     public void setCmnd(String cmnd) {
         this.cmnd = cmnd;
-    }
-
-    public String getGhiChu() {
-        return ghiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
     }
 
     public String getLoai() {
@@ -106,6 +76,6 @@ public class NguoiMuon implements Serializable {
 
     @Override
     public String toString() {
-        return  ho+" "+ten+" - "+loai;
+        return hoTen;
     }
 }

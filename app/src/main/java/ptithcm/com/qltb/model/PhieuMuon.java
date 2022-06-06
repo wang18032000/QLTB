@@ -8,22 +8,23 @@ import java.io.Serializable;
 
 public class PhieuMuon implements Serializable {
     private String maPM;
-    private String phong;
+    private String thoiGianMuon;
     private String ghiChu;
     private String maMN;
     private String maNV;
-    private String thoiGianMuon;
+    private String maP;
+
 
     public PhieuMuon() {
     }
 
-    public PhieuMuon(String maPM, String phong, String ghiChu, String maMN, String maNV, String thoiGianMuon) {
+    public PhieuMuon(String maPM, String thoiGianMuon, String ghiChu,  String maNV,String maMN, String maP) {
         this.maPM = maPM;
-        this.phong = phong;
+        this.thoiGianMuon = thoiGianMuon;
         this.ghiChu = ghiChu;
         this.maMN = maMN;
         this.maNV = maNV;
-        this.thoiGianMuon = thoiGianMuon;
+        this.maP = maP;
     }
 
     public String getMaPM() {
@@ -34,12 +35,12 @@ public class PhieuMuon implements Serializable {
         this.maPM = maPM;
     }
 
-    public String getPhong() {
-        return phong;
+    public String getThoiGianMuon() {
+        return thoiGianMuon;
     }
 
-    public void setPhong(String phong) {
-        this.phong = phong;
+    public void setThoiGianMuon(String thoiGianMuon) {
+        this.thoiGianMuon = thoiGianMuon;
     }
 
     public String getGhiChu() {
@@ -66,17 +67,17 @@ public class PhieuMuon implements Serializable {
         this.maNV = maNV;
     }
 
-    public String getThoiGianMuon() {
-        return thoiGianMuon;
+    public String getMaP() {
+        return maP;
     }
 
-    public void setThoiGianMuon(String thoiGianMuon) {
-        this.thoiGianMuon = thoiGianMuon;
+    public void setMaP(String maP) {
+        this.maP = maP;
     }
 
     @Override
     public String toString() {
-        return phong+" - "+thoiGianMuon;
+        return maMN+" "+thoiGianMuon;
     }
 }
 

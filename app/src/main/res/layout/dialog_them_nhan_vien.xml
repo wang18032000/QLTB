@@ -31,27 +31,7 @@
             android:id="@+id/edtHoNV_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="Họ"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtTenNV_add"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:hint="Tên"/>
+            android:hint="Họ và tên"/>
 
     </LinearLayout>
 
@@ -91,7 +71,7 @@
             android:id="@+id/edtCMNDNV_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="Số CMND"/>
+            android:hint="SDT"/>
 
     </LinearLayout>
 
@@ -111,36 +91,7 @@
             android:id="@+id/edtSdt_add"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:hint="Số Điện Thoại"/>
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <TextView
-            android:text="Chức Vụ: "
-            android:layout_width="107dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView11"
-            android:textSize="14sp" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spChucVu_add1"
-            android:layout_weight="1"
-            android:textSize="14sp"/>
+            android:hint="CMND"/>
 
     </LinearLayout>
 
@@ -181,26 +132,6 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:hint="Password"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp">
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtEmail_add"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:hint="Email"/>
 
     </LinearLayout>
 

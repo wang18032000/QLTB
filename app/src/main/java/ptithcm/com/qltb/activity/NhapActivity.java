@@ -25,19 +25,23 @@ import ptithcm.com.qltb.model.CT_PhieuMuon;
 import ptithcm.com.qltb.model.CT_PhieuNhap;
 import ptithcm.com.qltb.model.LoaiThietBi;
 import ptithcm.com.qltb.model.PhieuNhap;
+import ptithcm.com.qltb.model.Phong;
 import ptithcm.com.qltb.model.ThietBi;
 
 public class NhapActivity extends AppCompatActivity {
 
     PhieuNhap phieuNhap;
     LoaiThietBi selectedLoai;
+    ThietBi thietBi;
     TextView txtNgayNhap,txtTongNhap,txtM;
-    Spinner spLoai;
+    Spinner spLoai, spPhong;
     ImageView imgThemTBNhap;
     EditText edtTen,edtGia;
     Button btnNhapTB;
     ListView lvTBNhap;
     int Tong = 0;
+    ArrayAdapter<Phong> phongAdapter;
+    ArrayAdapter<LoaiThietBi> loaiAdapter;
     ArrayAdapter<CT_PhieuNhap> ctPNAdapter;
     ArrayAdapter<LoaiThietBi> loaiArrayAdapter;
     Dialog dialogNhap;
@@ -67,19 +71,36 @@ public class NhapActivity extends AppCompatActivity {
         edtGia = (EditText) dialogNhap.findViewById(R.id.edtGia);
         btnNhapTB = (Button) dialogNhap.findViewById(R.id.btnNhapTB);
         spLoai = (Spinner) dialogNhap.findViewById(R.id.spLoaiTBadd);
-        txtM = (TextView) dialogNhap.findViewById(R.id.txtMaLoaiTBadd);
+        spPhong = (Spinner) dialogNhap.findViewById(R.id.spPhong_Nhapadd);
 
         loaiArrayAdapter = new ArrayAdapter<LoaiThietBi>(NhapActivity.this, android.R.layout.simple_spinner_item);
         loaiArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spLoai.setAdapter(loaiArrayAdapter);
         getLoaiTBFromDB();
 
+        phongAdapter = new ArrayAdapter<Phong>(NhapActivity.this, android.R.layout.simple_spinner_item);
+        phongAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spPhong.setAdapter(phongAdapter);
+        getPhongFromDB();
+
         spLoai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedLoai = loaiArrayAdapter.getItem(i);
-                txtM.setText(selectedLoai.getMaLoai());
+//                selectedLoai = loaiArrayAdapter.getItem(i);
+//                txtM.setText(selectedLoai.getMaLoai());
+                thietBi.setMaLoai(loaiArrayAdapter.getItem(i).getMaLoai());
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thietBi.setMaP(phongAdapter.getItem(i).getMaP());
             }
 
             @Override
@@ -98,6 +119,19 @@ public class NhapActivity extends AppCompatActivity {
         });
 
         dialogNhap.show();
+    }
+
+    private void getPhongFromDB() {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM PHONG", null);
+        phongAdapter.clear();
+        while (cursor.moveToNext()) {
+            String ma = cursor.getString(0);
+            String loai = cursor.getString(1);
+            Phong p = new Phong(ma, loai);
+            phongAdapter.add(p);
+        }
+        cursor.close();
     }
 
     private boolean kiemtradulieu() {
@@ -121,7 +155,7 @@ public class NhapActivity extends AppCompatActivity {
 
     private void getLoaiTBFromDB() {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM LOAITHIETBI", null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM LOAI", null);
         loaiArrayAdapter.clear();
         while (cursor.moveToNext()) {
             String ma = cursor.getString(0);
@@ -153,10 +187,9 @@ public class NhapActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("MaTB",layMa(edtTen.getText().toString()));
         values.put("TenTB",edtTen.getText().toString());
-        values.put("GhiChu","");
-        values.put("MaLoai",txtM.getText().toString());
-        values.put("TrangThai","San co");
-        values.put("TinhTrang","Mới");
+        values.put("MaTT","SC");
+        values.put("MaLoai",thietBi.getMaLoai().toString());
+        values.put("MaP", thietBi.getMaP());
         int kq = (int) LoginActivity.database.insert("THIETBI",null,values);
         if (kq >0){
 
@@ -183,6 +216,7 @@ public class NhapActivity extends AppCompatActivity {
         Intent intent = getIntent();
         phieuNhap = (PhieuNhap) intent.getSerializableExtra("phieuNhap");
 
+        thietBi = new ThietBi();
         txtNgayNhap = (TextView) findViewById(R.id.txtNgayNhap);
         txtTongNhap = (TextView) findViewById(R.id.txtTongNhap);
         imgThemTBNhap = (ImageView) findViewById(R.id.imgThemTB_Nhap);

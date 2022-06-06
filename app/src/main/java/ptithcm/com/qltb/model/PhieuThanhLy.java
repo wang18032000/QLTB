@@ -9,14 +9,16 @@ import java.io.Serializable;
 public class PhieuThanhLy implements Serializable {
     private String maPTL;
     private String thoiGianTL;
+    private String ghiChu;
     private String maNV;
 
     public PhieuThanhLy() {
     }
 
-    public PhieuThanhLy(String maPTL, String thoiGianTL, String maNV) {
+    public PhieuThanhLy(String maPTL, String thoiGianTL, String ghiChu, String maNV) {
         this.maPTL = maPTL;
         this.thoiGianTL = thoiGianTL;
+        this.ghiChu = ghiChu;
         this.maNV = maNV;
     }
 
@@ -36,6 +38,14 @@ public class PhieuThanhLy implements Serializable {
         this.thoiGianTL = thoiGianTL;
     }
 
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
     public String getMaNV() {
         return maNV;
     }
@@ -46,6 +56,6 @@ public class PhieuThanhLy implements Serializable {
 
     @Override
     public String toString() {
-        return maPTL +" " + thoiGianTL;
+        return maPTL+" "+thoiGianTL;
     }
 }

@@ -24,12 +24,25 @@
         android:hint="Nhập Mã Người Mượn"
         android:id="@+id/edtMaNM_PM_ADD"
         android:weightSum="1"/>
-    <EditText
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập Phòng"
-        android:id="@+id/edtPhong_PM_ADD"
-        android:weightSum="1"/>
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:text="Phòng"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView14"
+            android:textSize="14sp" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spPhong_PM"
+            android:layout_weight="1"
+            android:textSize="14sp" />
+    </LinearLayout>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"

@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -23,6 +28,7 @@ import ptithcm.com.qltb.model.CT_PhieuMuon;
 import ptithcm.com.qltb.model.NguoiMuon;
 import ptithcm.com.qltb.model.NhanVien;
 import ptithcm.com.qltb.model.PhieuMuon;
+import ptithcm.com.qltb.model.Phong;
 import ptithcm.com.qltb.model.ThietBi;
 
 public class QuanLiMuonActivity extends AppCompatActivity {
@@ -41,6 +47,8 @@ public class QuanLiMuonActivity extends AppCompatActivity {
     int kt;
     EditText edtMaNM,edtPhong,edtGC;
     Button btnThemPM;
+    Spinner spPhong;
+    ArrayAdapter<Phong> phongAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +115,14 @@ public class QuanLiMuonActivity extends AppCompatActivity {
             long millis=System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
             String toDay = String.valueOf(date);
-            String thoiGian = cursor.getString(5);
+            String thoiGian = cursor.getString(1);
             if (thoiGian.equals(toDay)){
                 String maPM = cursor.getString(0);
-                String phong = cursor.getString(1);
+                String phong = cursor.getString(5);
                 String ghiChu = cursor.getString(2);
-                String maMN = cursor.getString(3);
-                String maNV = cursor.getString(4);
-                PhieuMuon pm = new PhieuMuon(maPM, phong, ghiChu, maMN, maNV, thoiGian);
+                String maMN = cursor.getString(4);
+                String maNV = cursor.getString(3);
+                PhieuMuon pm = new PhieuMuon(maPM,thoiGian, ghiChu,  maNV ,maMN, phong );
                 phieuMuonAdapter.add(pm);
             }
         }
@@ -126,15 +134,31 @@ public class QuanLiMuonActivity extends AppCompatActivity {
         dialogAdd.setContentView(R.layout.dialog_them_pm);
 
         edtMaNM = dialogAdd.findViewById(R.id.edtMaNM_PM_ADD);
-        edtPhong = dialogAdd.findViewById(R.id.edtPhong_PM_ADD);
+        spPhong = dialogAdd.findViewById(R.id.spPhong_PM);
         edtGC = dialogAdd.findViewById(R.id.edtGC_PM_ADD);
         btnThemPM = dialogAdd.findViewById(R.id.btnThemPM);
+
+        phongAdapter = new ArrayAdapter<Phong>(QuanLiMuonActivity.this, android.R.layout.simple_spinner_item);
+        phongAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spPhong.setAdapter(phongAdapter);
+        getPhongFromDB();
+
+        spPhong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                p = phongAdapter.getItem(i).getMaP();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnThemPM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 maNM = edtMaNM.getText().toString();
-                p = edtPhong.getText().toString();
                 if (kiemtradulieu()){
                     themCTPhieuMuon();
                 }
@@ -147,7 +171,6 @@ public class QuanLiMuonActivity extends AppCompatActivity {
     private void themCTPhieuMuon() {
         Random rand = new Random();
         int ranNum = rand.nextInt(100)+1;
-
         String maPM = "PM"+String.valueOf(ranNum);
         String gc = edtGC.getText().toString();
         kiemTraMuon(maNM);
@@ -156,7 +179,7 @@ public class QuanLiMuonActivity extends AppCompatActivity {
             long millis=System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
             String ngay = String.valueOf(date);
-            phieuMuon = new PhieuMuon(maPM,p,gc,maNM,maNV,ngay);
+            phieuMuon = new PhieuMuon(maPM,ngay,gc,maNV,maNM,p);
             update();
         }
     }
@@ -168,6 +191,19 @@ public class QuanLiMuonActivity extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    private void getPhongFromDB() {
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM PHONG", null);
+        phongAdapter.clear();
+        while (cursor.moveToNext()) {
+            String ma = cursor.getString(0);
+            String loai = cursor.getString(1);
+            Phong p = new Phong(ma, loai);
+            phongAdapter.add(p);
+        }
+        cursor.close();
     }
 
     private void kiemTraMuon(String ma) {
@@ -194,15 +230,12 @@ public class QuanLiMuonActivity extends AppCompatActivity {
         nguoiMuonAdapter.clear();
         while (cursor.moveToNext()){
             String maNM = cursor.getString(0);
-            String ho = cursor.getString(1);
-            String ten = cursor.getString(2);
-            String gioiTinh = cursor.getString(3);
-            String ngaysinh = cursor.getString(4);
-            String diachi = cursor.getString(5);
-            String cmnd = cursor.getString(6);
-            String ghichu = cursor.getString(7);
-            String loai = cursor.getString(8);
-            NguoiMuon nm = new NguoiMuon(maNM, ho, ten, gioiTinh, ngaysinh, diachi, cmnd, ghichu, loai);
+            String hoten = cursor.getString(1);
+            String gioiTinh = cursor.getString(2);
+            String sdt = cursor.getString(3);
+            String cmnd = cursor.getString(4);
+            String loai = cursor.getString(5);
+            NguoiMuon nm = new NguoiMuon(maNM, hoten, gioiTinh, sdt, cmnd, loai);
             nguoiMuonAdapter.add(nm);
         }
         cursor.close();
@@ -229,11 +262,12 @@ public class QuanLiMuonActivity extends AppCompatActivity {
     private void update() {
         ContentValues values = new ContentValues();
         values.put("MaPM",phieuMuon.getMaPM());
-        values.put("Phong",phieuMuon.getPhong());
+        values.put("ThoiGianMuon",phieuMuon.getThoiGianMuon());
         values.put("GhiChu",phieuMuon.getGhiChu());
         values.put("MaNM",phieuMuon.getMaMN());
         values.put("MaNV",phieuMuon.getMaNV());
-        values.put("ThoiGianMuon",phieuMuon.getThoiGianMuon());
+        values.put("MaP",phieuMuon.getMaP());
+
         int kq = (int) LoginActivity.database.insert("PHIEUMUON", null, values);
         if (kq > 0 ){
             Toast.makeText(QuanLiMuonActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
@@ -242,5 +276,27 @@ public class QuanLiMuonActivity extends AppCompatActivity {
         } else {
             Toast.makeText(QuanLiMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_option_menu, menu);
+
+        MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
+        SearchView searchView = (SearchView) mnuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                phieuMuonAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

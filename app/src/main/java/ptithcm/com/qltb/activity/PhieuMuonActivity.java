@@ -20,6 +20,7 @@ import ptithcm.com.qltb.model.CT_PhieuMuon;
 import ptithcm.com.qltb.model.NguoiMuon;
 import ptithcm.com.qltb.model.PhieuMuon;
 import ptithcm.com.qltb.model.ThietBi;
+import ptithcm.com.qltb.model.TrangThai;
 
 public class PhieuMuonActivity extends AppCompatActivity {
 
@@ -29,11 +30,14 @@ public class PhieuMuonActivity extends AppCompatActivity {
     ArrayAdapter<CT_PhieuMuon> cTPMAdapter;
     ArrayAdapter<NguoiMuon> nguoiMuonAdapter;
     ArrayAdapter<ThietBi> thietBiAdapter;
+    ArrayAdapter<TrangThai> trangThaiAdapter;
+    TrangThai trangThai;
     NguoiMuon nguoiMuon;
     PhieuMuon phieuMuon;
     CT_PhieuMuon ct_phieuMuon;
     ThietBi thietbi;
     Dialog dialogThemTB,dialogChiTietTB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,6 @@ public class PhieuMuonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phieu_muon);
         addControls();
         addEvents();
-
     }
 
     private void addEvents() {
@@ -76,7 +79,7 @@ public class PhieuMuonActivity extends AppCompatActivity {
 
         txtMaMN.setText(phieuMuon.getMaMN());
         txtTenNM.setText(findTen(phieuMuon.getMaMN()));
-        txtPhong.setText(phieuMuon.getPhong());
+        txtPhong.setText(phieuMuon.getMaP());
         txtThoiGianMuon.setText(phieuMuon.getThoiGianMuon());
 
         getCTFromDB(phieuMuon.getMaPM());
@@ -108,16 +111,13 @@ public class PhieuMuonActivity extends AppCompatActivity {
         Cursor cursor = LoginActivity.database.query("NGUOIMUON",null,"MaNM=?",new String[]{ma},null,null,null);
         nguoiMuonAdapter.clear();
         while (cursor.moveToNext()){
-            String maNV = cursor.getString(0);
-            String ho = cursor.getString(1);
-            String ten = cursor.getString(2);
-            String gioiTinh = cursor.getString(3);
-            String ngaysinh = cursor.getString(4);
-            String diachi = cursor.getString(5);
-            String cmnd = cursor.getString(6);
-            String ghichu = cursor.getString(7);
-            String loai = cursor.getString(8);
-            nguoiMuon = new NguoiMuon(maNV,ho,ten,gioiTinh,ngaysinh,diachi,cmnd,ghichu,loai);
+            String maNM = cursor.getString(0);
+            String hoten = cursor.getString(1);
+            String gioiTinh = cursor.getString(2);
+            String sdt = cursor.getString(3);
+            String cmnd = cursor.getString(4);
+            String loai = cursor.getString(5);
+            nguoiMuon = new NguoiMuon(maNM, hoten, gioiTinh, sdt, cmnd, loai);
             nguoiMuonAdapter.add(nguoiMuon);
         }
         cursor.close();
@@ -130,31 +130,43 @@ public class PhieuMuonActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String matb = cursor.getString(0);
             String tentb = cursor.getString(1);
-            String ghichu = cursor.getString(2);
+            String matt = cursor.getString(2);
             String maloai = cursor.getString(3);
-            String tinhtrang = cursor.getString(5);
-            String trangthai = cursor.getString(4);
-            thietbi = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
+            String map = cursor.getString(4);
+            thietbi = new ThietBi(matb, tentb, matt, maloai,map);
             thietBiAdapter.add(thietbi);
         }
         cursor.close();
     }
 
-    private void getTBFromDB(String t) {
+    private void getTBFromDB(String tt,String p) {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.query("THIETBI", null,"TrangThai=?",new String[]{t},null,null,null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM THIETBI WHERE MaTT=?",new String[]{tt});
         thietBiAdapter.clear();
         while (cursor.moveToNext()) {
             String matb = cursor.getString(0);
             String tentb = cursor.getString(1);
-            String ghichu = cursor.getString(2);
+            String matt = cursor.getString(2);
             String maloai = cursor.getString(3);
-            String tinhtrang = cursor.getString(5);
-            String trangthai = cursor.getString(4);
-            ThietBi tb = new ThietBi(matb, tentb, ghichu, maloai,trangthai, tinhtrang);
+            String map = cursor.getString(4);
+            ThietBi tb = new ThietBi(matb, tentb, matt, maloai, map);
             thietBiAdapter.add(tb);
         }
         cursor.close();
+        ThietBi tb = new ThietBi();
+        ArrayAdapter<ThietBi> tmp;
+        tmp = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
+        for (int i =0; i < thietBiAdapter.getCount();i++){
+            tb = thietBiAdapter.getItem(i);
+            if ((thietBiAdapter.getItem(i).getMaP().equals(p))||(thietBiAdapter.getItem(i).getMaP().equals("2A"))){
+                tmp.add(tb);
+            }
+        }
+        thietBiAdapter.clear();
+        for (int i =0; i < tmp.getCount();i++){
+            tb = tmp.getItem(i);
+            thietBiAdapter.add(tb);
+        }
     }
 
     private void showDialogThietBi(){
@@ -165,21 +177,36 @@ public class PhieuMuonActivity extends AppCompatActivity {
         final TextView txtTT = dialogChiTietTB.findViewById(R.id.txtTT_detail);
         final Button btnTra = dialogChiTietTB.findViewById(R.id.btnTra);
         thietBiAdapter = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
+        trangThaiAdapter= new ArrayAdapter<TrangThai>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         findTB(ct_phieuMuon.getMaTB());
         thietbi = thietBiAdapter.getItem(0);
         txtTen.setText(thietbi.getTenTB());
-        txtTT.setText(thietbi.getTrangThai());
+        txtTT.setText(findTrangThai(thietbi.getMaTT()));
 
         btnTra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateTB(thietbi,"San co");
+                updateTB(thietbi,"SC");
                 update(thietbi);
                 getCTFromDB(phieuMuon.getMaPM());
                 dialogChiTietTB.dismiss();
             }
         });
         dialogChiTietTB.show();
+    }
+
+    private String findTrangThai(String ma){
+        LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME, MODE_PRIVATE, null);
+        Cursor cursor = LoginActivity.database.query("TRANGTHAI", null,"MaTT=?",new String[]{ma},null,null,null);
+        thietBiAdapter.clear();
+        while (cursor.moveToNext()) {
+            String matt = cursor.getString(0);
+            String tentt = cursor.getString(1);
+            trangThai =  new TrangThai(matt, tentt);
+            trangThaiAdapter.add(trangThai);
+        }
+        cursor.close();
+        return trangThai.getTenTT();
     }
 
     private void showDiaLogAddThietBi(){
@@ -189,13 +216,13 @@ public class PhieuMuonActivity extends AppCompatActivity {
         final ListView lvThemTB = dialogThemTB.findViewById(R.id.lvThemTB_CTPM);
         thietBiAdapter = new ArrayAdapter<ThietBi>(PhieuMuonActivity.this, android.R.layout.simple_list_item_1);
         lvThemTB.setAdapter(thietBiAdapter);
-        getTBFromDB("San co");
+        getTBFromDB("SC",phieuMuon.getMaP());
 
         lvThemTB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 thietbi = thietBiAdapter.getItem(i);
-                updateTB(thietbi,"Dang muon");
+                updateTB(thietbi,"DM");
                 add();
             }
         });
@@ -207,11 +234,9 @@ public class PhieuMuonActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("MaTB",thietbi.getMaTB());
         values.put("TenTB",thietbi.getTenTB());
-        values.put("Ghichu",thietbi.getGhiChu());
+        values.put("MaTT",t);
         values.put("MaLoai",thietbi.getMaLoai());
-        values.put("TrangThai",t);
-        values.put("TinhTrang",thietbi.getTinhTrang());
-
+        values.put("MaP",thietbi.getMaP());
         int kq = LoginActivity.database.update("THIETBI", values, "MaTB = ?", new String[]{thietbi.getMaTB()});
         if (kq != 0){
             getCTFromDB(phieuMuon.getMaPM());

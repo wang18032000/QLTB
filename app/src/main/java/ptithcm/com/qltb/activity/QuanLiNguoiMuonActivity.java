@@ -5,7 +5,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,11 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
-
 import ptithcm.com.qltb.R;
 import ptithcm.com.qltb.model.NguoiMuon;
-import ptithcm.com.qltb.model.NhanVien;
 
 public class QuanLiNguoiMuonActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
     ImageView imgThemNM;
     ListView lvNguoiMuon;
     TextView txtMa;
-    EditText edtMa, edtHo, edtTen, edtGioiTinh, edtNgaySinh, edtDiaChi, edtCMND, edtGhiChu, edtLoai;
+    EditText edtMa, edtHoTen, edtGioiTinh, edtSDT, edtCMND, edtLoai;
     Dialog dialogNM,dialogThemNM;
     Button btnCapNhat, btnThem;
 
@@ -63,24 +63,18 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         dialogNM.setContentView(R.layout.dialog_ct_nguoi_muon);
 
         txtMa = (TextView) dialogNM.findViewById(R.id.txtMaNM_detail);
-        edtHo = (EditText) dialogNM.findViewById(R.id.edtHoNM_detail);
-        edtTen = (EditText) dialogNM.findViewById(R.id.edtTenNM_detail);
+        edtHoTen = (EditText) dialogNM.findViewById(R.id.edtHoNM_detail);
         edtGioiTinh = (EditText) dialogNM.findViewById(R.id.edtGTNM_detail);
-        edtNgaySinh = (EditText) dialogNM.findViewById(R.id.edtNSNM_detail);
-        edtDiaChi =(EditText) dialogNM.findViewById(R.id.edtDCNM_detail);
+        edtSDT =(EditText) dialogNM.findViewById(R.id.edtDCNM_detail);
         edtCMND = (EditText) dialogNM.findViewById(R.id.edtCMNDNM_detail);
-        edtGhiChu = (EditText) dialogNM.findViewById(R.id.edtGCNM_detail);
         edtLoai = (EditText) dialogNM.findViewById(R.id.edtLoaiNM_detail);
         btnCapNhat = dialogNM.findViewById(R.id.btnCapNhatNM);
 
         txtMa.setText(nguoiMuon.getMaNM());
-        edtHo.setText(nguoiMuon.getHo());
-        edtTen.setText(nguoiMuon.getTen());
+        edtHoTen.setText(nguoiMuon.getHoTen());
         edtGioiTinh.setText(nguoiMuon.getGioiTinh());
-        edtNgaySinh.setText(nguoiMuon.getNgaySinh());
-        edtDiaChi.setText(nguoiMuon.getDiaChi());
+        edtSDT.setText(nguoiMuon.getsDT());
         edtCMND.setText(nguoiMuon.getCmnd());
-        edtGhiChu.setText(nguoiMuon.getGhiChu());
         edtLoai.setText(nguoiMuon.getLoai());
 
         btnCapNhat.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +89,12 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
     }
 
     private boolean kiemtradulieu() {
-        String ho = edtHo.getText().toString();
-        String ten = edtTen.getText().toString();
+        String ho = edtHoTen.getText().toString();
         String gt = edtGioiTinh.getText().toString();
-        String ns = edtNgaySinh.getText().toString();;
-        String dc = edtDiaChi.getText().toString();
+        String dc = edtSDT.getText().toString();
         String cmnd = edtCMND.getText().toString();
         String loai = edtLoai.getText().toString();
-        if (!ho.equals("") && !ten.equals("") && !gt.equals("") && !ns.equals("") && !dc.equals("") && !cmnd.equals("") && !loai.equals("")){
+        if (!ho.equals("") && !gt.equals("") && !dc.equals("") && !cmnd.equals("") && !loai.equals("")){
             if (!gt.equals("Nam") && !gt.equals("Nu")){
                 Toast.makeText(QuanLiNguoiMuonActivity.this, "Giới tính không xác định", Toast.LENGTH_LONG).show();
                 return false;
@@ -117,13 +109,10 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
     private void update() {
         ContentValues values = new ContentValues();
         values.put("MaNM", txtMa.getText().toString());
-        values.put("Ho", edtHo.getText().toString());
-        values.put("Ten", edtTen.getText().toString());
+        values.put("HoTen", edtHoTen.getText().toString());
         values.put("GioiTinh", edtGioiTinh.getText().toString());
-        values.put("NgaySinh", edtNgaySinh.getText().toString());
-        values.put("DiaChi", edtDiaChi.getText().toString());
+        values.put("SDT", edtSDT.getText().toString());
         values.put("CMND", edtCMND.getText().toString());
-        values.put("GhiChu", edtGhiChu.getText().toString());
         values.put("Loai",edtLoai.getText().toString());
         int kq = (int) LoginActivity.database.update("NGUOIMUON",values,"MaNM = ?",new String[]{txtMa.getText().toString()});
         if (kq >0){
@@ -139,13 +128,10 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         dialogThemNM.setContentView(R.layout.dialog_them_nguoi_muon);
 
         edtMa = (EditText) dialogThemNM.findViewById(R.id.edtMaNM_add);
-        edtHo = (EditText) dialogThemNM.findViewById(R.id.edtHoNM_add);
-        edtTen = (EditText) dialogThemNM.findViewById(R.id.edtTenNM_add);
+        edtHoTen = (EditText) dialogThemNM.findViewById(R.id.edtHoNM_add);
         edtGioiTinh = (EditText) dialogThemNM.findViewById(R.id.edtGTNM_add);
-        edtNgaySinh = (EditText) dialogThemNM.findViewById(R.id.edtNSNM_add);
-        edtDiaChi =(EditText) dialogThemNM.findViewById(R.id.edtDCNM_add);
+        edtSDT =(EditText) dialogThemNM.findViewById(R.id.edtDCNM_add);
         edtCMND = (EditText) dialogThemNM.findViewById(R.id.edtCMNDNM_add);
-        edtGhiChu = (EditText) dialogThemNM.findViewById(R.id.edtGCNM_add);
         edtLoai = (EditText) dialogThemNM.findViewById(R.id.edtLoaiNM_add);
         btnThem = dialogThemNM.findViewById(R.id.btnThêmNM);
 
@@ -163,13 +149,10 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
     private void add() {
         ContentValues values = new ContentValues();
         values.put("MaNM", edtMa.getText().toString());
-        values.put("Ho", edtHo.getText().toString());
-        values.put("Ten", edtTen.getText().toString());
+        values.put("HoTen", edtHoTen.getText().toString());
         values.put("GioiTinh", edtGioiTinh.getText().toString());
-        values.put("NgaySinh", edtNgaySinh.getText().toString());
-        values.put("DiaChi", edtDiaChi.getText().toString());
+        values.put("SDT", edtSDT.getText().toString());
         values.put("CMND", edtCMND.getText().toString());
-        values.put("GhiChu", edtGhiChu.getText().toString());
         values.put("Loai",edtLoai.getText().toString());
         int kq = (int) LoginActivity.database.insert("NGUOIMUON",null, values);
         if (kq >0) {
@@ -179,20 +162,6 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         }else
             Toast.makeText(QuanLiNguoiMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
     }
-
-//    public String layMa(String str){
-//        String ten = "";
-//        String[] tu = str.split(" ");
-//        Random rand = new Random();
-//        int ranNum = rand.nextInt(100)+1;
-//        for (String s : tu) {
-//            if (!s.equals("") && !s.equals(null)) {
-//                ten+=String.valueOf(s.charAt(0));
-//                ten.toUpperCase();
-//            }
-//        }
-//        return ten+String.valueOf(ranNum);
-//    }
 
     private void addControls() {
         imgThemNM = (ImageView) findViewById(R.id.imgThemNM);
@@ -208,16 +177,36 @@ public class QuanLiNguoiMuonActivity extends AppCompatActivity {
         while (cursor.moveToNext()){
             String maNM = cursor.getString(0);
             String ho = cursor.getString(1);
-            String ten = cursor.getString(2);
-            String gioiTinh = cursor.getString(3);
-            String ngaysinh = cursor.getString(4);
-            String diachi = cursor.getString(5);
-            String cmnd = cursor.getString(6);
-            String ghichu = cursor.getString(7);
-            String loai = cursor.getString(8);
-            NguoiMuon nm = new NguoiMuon(maNM, ho, ten, gioiTinh, ngaysinh, diachi, cmnd, ghichu, loai);
+            String gioiTinh = cursor.getString(2);
+            String sdt = cursor.getString(3);
+            String cmnd = cursor.getString(4);
+            String loai = cursor.getString(5);
+            NguoiMuon nm = new NguoiMuon(maNM, ho, gioiTinh, sdt, cmnd, loai);
             nguoiMuonAdapter.add(nm);
         }
         cursor.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_option_menu, menu);
+
+        MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
+        SearchView searchView = (SearchView) mnuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                nguoiMuonAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

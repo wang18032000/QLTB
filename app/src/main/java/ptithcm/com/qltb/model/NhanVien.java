@@ -8,26 +8,22 @@ import java.io.Serializable;
 
 public class NhanVien implements Serializable {
     private String maNV;
-    private String ho;
-    private String ten;
+    private String hoTen;
     private String gioiTinh;
-    private String cmnd;
     private String sdt;
+    private String cmnd;
     private String username;
-    private String maCV;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String ho, String ten, String gioiTinh, String cmnd, String sdt, String username, String maCV) {
+    public NhanVien(String maNV, String hoTen, String gioiTinh, String sdt, String cmnd, String username) {
         this.maNV = maNV;
-        this.ho = ho;
-        this.ten = ten;
+        this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
-        this.cmnd = cmnd;
         this.sdt = sdt;
+        this.cmnd = cmnd;
         this.username = username;
-        this.maCV = maCV;
     }
 
     public String getMaNV() {
@@ -38,20 +34,12 @@ public class NhanVien implements Serializable {
         this.maNV = maNV;
     }
 
-    public String getHo() {
-        return ho;
+    public String getHoTen() {
+        return hoTen;
     }
 
-    public void setHo(String ho) {
-        this.ho = ho;
-    }
-
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
     }
 
     public String getGioiTinh() {
@@ -62,20 +50,20 @@ public class NhanVien implements Serializable {
         this.gioiTinh = gioiTinh;
     }
 
-    public String getCmnd() {
-        return cmnd;
-    }
-
-    public void setCmnd(String cmnd) {
-        this.cmnd = cmnd;
-    }
-
     public String getSdt() {
         return sdt;
     }
 
     public void setSdt(String sdt) {
         this.sdt = sdt;
+    }
+
+    public String getCmnd() {
+        return cmnd;
+    }
+
+    public void setCmnd(String cmnd) {
+        this.cmnd = cmnd;
     }
 
     public String getUsername() {
@@ -86,16 +74,8 @@ public class NhanVien implements Serializable {
         this.username = username;
     }
 
-    public String getMaCV() {
-        return maCV;
-    }
-
-    public void setMaCV(String maCV) {
-        this.maCV = maCV;
-    }
-
     @Override
     public String toString() {
-        return ho+" "+ten;
+        return hoTen ;
     }
 }
