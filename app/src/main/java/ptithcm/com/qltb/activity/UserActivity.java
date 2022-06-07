@@ -20,7 +20,7 @@ import ptithcm.com.qltb.model.ThietBi;
 
 public class UserActivity extends AppCompatActivity {
 
-    TextView txtNV;
+    TextView txtNV, txtMaNV;
     Button btnMuon, btnQLTB, btnQLNM, btnTK;
     ArrayAdapter<NhanVien> nvAdapter;
     TaiKhoan taiKhoan;
@@ -43,29 +43,6 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnQLTB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserActivity.this, QuanLiThietBiActivity.class);
-                intent.putExtra("nhanvien",nhanVien);
-                startActivity(intent);
-            }
-        });
-        btnQLNM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserActivity.this, QuanLiNguoiMuonActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnTK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserActivity.this, ThongKeActivity.class);
-                intent.putExtra("nhanvien",nhanVien);
-                startActivity(intent);
-            }
-        });
     }
 
     private void addControls() {
@@ -73,16 +50,14 @@ public class UserActivity extends AppCompatActivity {
         taiKhoan = (TaiKhoan) intent.getSerializableExtra("taikhoan");
 
         txtNV = (TextView) findViewById(R.id.txtNV);
+        txtMaNV = (TextView) findViewById(R.id.txtMaNV);
         btnMuon = (Button) findViewById(R.id.btnMuon);
-        btnQLTB = (Button) findViewById(R.id.btnQLTB);
-        btnQLNM = (Button) findViewById(R.id.btnQLNM);
-        btnTK = (Button) findViewById(R.id.btnTK);
         String u = taiKhoan.getUsername();
         nvAdapter = new ArrayAdapter<NhanVien>(UserActivity.this, android.R.layout.simple_list_item_1);
         getNhanVienFromDB(u);
         nhanVien = nvAdapter.getItem(0);
         txtNV.setText(nhanVien.getHoTen());
-
+        txtMaNV.setText(nhanVien.getUsername());
     }
 
     private void getNhanVienFromDB(String u) {
@@ -102,17 +77,36 @@ public class UserActivity extends AppCompatActivity {
         cursor.close();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.mnulogout:
-//                getApplicationContext().getSharedPreferences("lastUser", 0).edit().clear().commit();
-//                UserActivity.this.finish();
-//                Intent intent = new Intent(UserActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                break;
-//
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_user,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mnuMuon:
+                Intent intent = new Intent(UserActivity.this, QuanLiMuonActivity.class);
+                intent.putExtra("nhanvien",nhanVien);
+                startActivity(intent);
+                break;
+            case R.id.mnuQLTB:
+                intent = new Intent(UserActivity.this, QuanLiThietBiActivity.class);
+                intent.putExtra("nhanvien",nhanVien);
+                startActivity(intent);
+                break;
+            case R.id.mnuQLNM:
+                intent = new Intent(UserActivity.this, QuanLiNguoiMuonActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mnuTK:
+                intent = new Intent(UserActivity.this, ThongKeActivity.class);
+                intent.putExtra("nhanvien",nhanVien);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -162,7 +162,7 @@ public class QuanLiMuonActivity extends AppCompatActivity {
                 if (kiemtradulieu()){
                     themCTPhieuMuon();
                 }
-
+                getPhieuMuonFromDB(MaNV);
             }
         });
         dialogAdd.show();
@@ -271,8 +271,9 @@ public class QuanLiMuonActivity extends AppCompatActivity {
         int kq = (int) LoginActivity.database.insert("PHIEUMUON", null, values);
         if (kq > 0 ){
             Toast.makeText(QuanLiMuonActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
-            dialogAdd.dismiss();
             getPhieuMuonFromDB(MaNV);
+            dialogAdd.dismiss();
+
         } else {
             Toast.makeText(QuanLiMuonActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
         }

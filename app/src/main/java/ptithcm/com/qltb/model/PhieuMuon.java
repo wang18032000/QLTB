@@ -77,7 +77,7 @@ public class PhieuMuon implements Serializable {
 
     @Override
     public String toString() {
-        return maMN+" "+thoiGianMuon;
+        return maMN+" - "+maP+" - "+thoiGianMuon;
     }
 }
 

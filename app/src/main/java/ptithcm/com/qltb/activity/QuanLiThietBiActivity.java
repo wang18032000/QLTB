@@ -62,25 +62,6 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-        btnNhap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createPhieuNhap(MaNV);
-                Intent intent = new Intent(QuanLiThietBiActivity.this, NhapActivity.class);
-                intent.putExtra("phieuNhap",phieuNhap);
-                startActivity(intent);
-            }
-        });
-
-        btnThanhLy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createPhieuThanhLy(MaNV);
-                Intent intent = new Intent(QuanLiThietBiActivity.this, ThanhLyActivity.class);
-                intent.putExtra("phieuThanhLy",phieuThanhLy);
-                startActivity(intent);
-            }
-        });
         lvThietBi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -91,39 +72,36 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
     }
 
     private void createPhieuNhap(String ma) {
-        phieuNhap = new PhieuNhap();
-        phieuNhap.setMaPN(getMaP());
-        phieuNhap.setThoiGianNhap(getToday());
-        phieuNhap.setGhiChu("");
-        phieuNhap.setMaNV(ma);
+        phieuNhap = new PhieuNhap(getMaP(),getToday(),"",ma);
         addPhieuNhap();
     }
 
     private void addPhieuNhap(){
         ContentValues values = new ContentValues();
         values.put("MaPN",phieuNhap.getMaPN());
-        values.put("ThoiGianNhap",phieuNhap.getThoiGianNhap());
+        values.put("ThoiGianN",phieuNhap.getThoiGianNhap());
         values.put("GhiChu",phieuNhap.getGhiChu());
         values.put("MaNV",phieuNhap.getMaNV());
+
         int kq = (int) LoginActivity.database.insert("PHIEUNHAP", null, values);
         if (kq > 0){
             Toast.makeText(QuanLiThietBiActivity.this, "Đã tạo phiếu nhập", Toast.LENGTH_LONG).show();
-        }else Toast.makeText(QuanLiThietBiActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
+        }else
+            Toast.makeText(QuanLiThietBiActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_LONG).show();
     }
 
     private void createPhieuThanhLy(String ma) {
-        phieuThanhLy =  new PhieuThanhLy();
-        phieuThanhLy.setMaPTL(getMaP());
-        phieuThanhLy.setThoiGianTL(getToday());
-        phieuThanhLy.setMaNV(ma);
+        phieuThanhLy =  new PhieuThanhLy(getMaP(),getToday(),"",ma);
         addPhieuThanhLy();
     }
 
     private void addPhieuThanhLy(){
         ContentValues values = new ContentValues();
         values.put("MaPTL",phieuThanhLy.getMaPTL());
-        values.put("ThoiGian",phieuThanhLy.getThoiGianTL());
+        values.put("ThoiGianTL",phieuThanhLy.getThoiGianTL());
+        values.put("GhiChu",phieuThanhLy.getGhiChu());
         values.put("MaNV",phieuThanhLy.getMaNV());
+
         int kq = (int) LoginActivity.database.insert("PHIEUTHANHLY", null, values);
         if (kq > 0){
             Toast.makeText(QuanLiThietBiActivity.this, "Đã tạo phiếu thanh lý", Toast.LENGTH_LONG).show();
@@ -306,9 +284,7 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
         Intent intent = getIntent();
         nhanVien = (NhanVien) intent.getSerializableExtra("nhanvien");
         MaNV = nhanVien.getMaNV();
-        
-        btnNhap = (Button) findViewById(R.id.btnNhap);
-        btnThanhLy = (Button) findViewById(R.id.btnThanhLy);
+
         lvThietBi = (ListView) findViewById(R.id.lvThietBi);
         thietBiAdapter = new ArrayAdapter<ThietBi>(QuanLiThietBiActivity.this, android.R.layout.simple_list_item_1);
         lvThietBi.setAdapter(thietBiAdapter);
@@ -335,7 +311,7 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_option_menu, menu);
+        inflater.inflate(R.menu.menu_thietbi, menu);
 
         MenuItem mnuSearch = menu.findItem(R.id.mnuSearch);
         SearchView searchView = (SearchView) mnuSearch.getActionView();
@@ -353,5 +329,24 @@ public class QuanLiThietBiActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mnuNhap:
+                createPhieuNhap(MaNV);
+                Intent intent = new Intent(QuanLiThietBiActivity.this, NhapActivity.class);
+                intent.putExtra("phieuNhap",phieuNhap);
+                startActivity(intent);
+                break;
+            case R.id.mnuTL:
+                createPhieuThanhLy(MaNV);
+                intent = new Intent(QuanLiThietBiActivity.this, ThanhLyActivity.class);
+                intent.putExtra("phieuThanhLy",phieuThanhLy);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

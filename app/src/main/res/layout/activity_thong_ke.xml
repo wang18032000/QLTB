@@ -18,7 +18,7 @@
         android:layout_centerInParent="true">
 
         <Button
-            android:text="Danh sách Phiếu Mượn chưa trả(đang phát triển)"
+            android:text="Danh sách Phiếu Mượn chưa trả"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_below="@+id/txtNV"

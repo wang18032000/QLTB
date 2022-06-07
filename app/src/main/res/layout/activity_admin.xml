@@ -16,50 +16,67 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_centerInParent="true">
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/txtAD"
-            android:layout_marginBottom="4dp"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:text="Quản Lí Nhân Viên"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_below="@+id/txtAD"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="68dp"
-            android:id="@+id/btnQLNV"
-            android:textColor="#FFFFFF"
-            android:background="#C13346"
-            android:layout_margin="2dp"/>
 
-        <Button
-            android:text="Quản Lí Thiết bị"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:id="@+id/btnQLTB_ad"
-            android:layout_below="@+id/btnQLNV"
-            android:layout_centerHorizontal="true"
-            android:textColor="#FFFFFF"
-            android:background="#C13346"
-            android:layout_margin="2dp"/>
+            <TextView
+                android:text="User Đăng Nhập"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
 
-        <Button
-            android:text="Quản Lí Người Mượn"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:id="@+id/btnQLNM_ad"
-            android:layout_below="@+id/btnQLTB_ad"
-            android:layout_centerHorizontal="true"
-            android:textColor="#FFFFFF"
-            android:background="#C13346"
-            android:layout_margin="2dp"/>
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/txtMaAD"
+                android:layout_marginBottom="4dp"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textColor="#C13346"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:text="Tên nhân viên"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFFFF"/>
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/txtAD"
+                android:layout_marginBottom="4dp"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textColor="#C13346"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

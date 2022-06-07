@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuMuon"
+        android:title="Cho mượn" />
+    <item
+        android:id="@+id/mnuQLTB"
+        android:title="Quản lí thiết bi" />
+    <item
+        android:id="@+id/mnuQLNM"
+        android:title="Quản lí người mượn" />
+    <item
+        android:id="@+id/mnuTK"
+        android:title="Quản lí thống kê" />
+</menu>

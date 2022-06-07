@@ -35,13 +35,12 @@ public class DanhSachPhieuNhapActivity extends AppCompatActivity {
         lvPhieuNhap = (ListView) findViewById(R.id.lvPhieuNhap);
         phieuNhapAdapter = new ArrayAdapter<PhieuNhap>(DanhSachPhieuNhapActivity.this, android.R.layout.simple_list_item_1);
         lvPhieuNhap.setAdapter(phieuNhapAdapter);
-
         getPhieuNhapDB();
     }
 
     private void getPhieuNhapDB() {
         LoginActivity.database = openOrCreateDatabase(LoginActivity.DATABASE_NAME,MODE_PRIVATE, null);
-        Cursor cursor = LoginActivity.database.query("PHIEUNHAP",null,null,null,null,null,null);
+        Cursor cursor = LoginActivity.database.rawQuery("SELECT * FROM PHIEUNHAP",null);
         phieuNhapAdapter.clear();
         while (cursor.moveToNext()){
             String maPN = cursor.getString(0);
